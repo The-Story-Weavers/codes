@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract UserLogin {
+contract NovelPlatform {
     error UsrNotRegisted(address user);
     error UsrAlreadyRegisted(address user);
     event UserRegistered(address indexed user); // 用户注册

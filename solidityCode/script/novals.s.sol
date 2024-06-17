@@ -2,14 +2,14 @@
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import {UserLogin} from "../src/Login.sol";
+import {NovelPlatform} from "../src/novels.sol";
 
 contract CounterScript is Script {
     function setUp() public {}
 
     function run() public {
         vm.startBroadcast();
-        UserLogin userlogin = new UserLogin();
+        NovelPlatform novel = new NovelPlatform();
         vm.stopBroadcast();
     }
 }
