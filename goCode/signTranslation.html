@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Transaction Signing</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+</head>
+
+<body>
+    <button onclick="signTransaction()">Sign Transaction</button>
+
+    <script>
+        async function signTransaction() {
+            if (typeof web3 !== 'undefined') {
+                web3 = new Web3(web3.currentProvider);
+            } else {
+                alert("Please install MetaMask to use this feature.");
+                return;
+            }
+
+            try {
+                const accounts = await web3.eth.getAccounts();
+                const sender = accounts[0];
+                const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // Replace with your smart contract address
+                const contractABI = [{ "type": "function", "name": "addArticle", "inputs": [{ "name": "textHex", "type": "bytes32", "internalType": "bytes32" }], "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }], "stateMutability": "nonpayable" }, { "type": "function", "name": "getArticle", "inputs": [{ "name": "textHex", "type": "bytes32", "internalType": "bytes32" }], "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }], "stateMutability": "view" }, { "type": "function", "name": "isAfterMidnight", "inputs": [{ "name": "timestamp", "type": "uint256", "internalType": "uint256" }], "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }], "stateMutability": "view" }, { "type": "function", "name": "isUserRegistered", "inputs": [{ "name": "user", "type": "address", "internalType": "address" }], "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }], "stateMutability": "view" }, { "type": "function", "name": "loginUser", "inputs": [], "outputs": [], "stateMutability": "nonpayable" }, { "type": "function", "name": "registerUser", "inputs": [], "outputs": [], "stateMutability": "nonpayable" }, { "type": "event", "name": "AddArticle_", "inputs": [{ "name": "user", "type": "address", "indexed": true, "internalType": "address" }, { "name": "textHex", "type": "bytes32", "indexed": false, "internalType": "bytes32" }], "anonymous": false }, { "type": "event", "name": "DistributeFrag", "inputs": [{ "name": "user", "type": "address", "indexed": true, "internalType": "address" }, { "name": "num", "type": "uint8", "indexed": false, "internalType": "uint8" }], "anonymous": false }, { "type": "event", "name": "RechargeMember", "inputs": [{ "name": "user", "type": "address", "indexed": true, "internalType": "address" }], "anonymous": false }, { "type": "event", "name": "UserLoggedIn", "inputs": [{ "name": "user", "type": "address", "indexed": true, "internalType": "address" }], "anonymous": false }, { "type": "event", "name": "UserRegistered", "inputs": [{ "name": "user", "type": "address", "indexed": true, "internalType": "address" }], "anonymous": false }, { "type": "error", "name": "UsrAlreadyRegisted", "inputs": [{ "name": "user", "type": "address", "internalType": "address" }] }, { "type": "error", "name": "UsrNotRegisted", "inputs": [{ "name": "user", "type": "address", "internalType": "address" }] }]; // Replace with your smart contract ABI
+
+                const contract = new web3.eth.Contract(contractABI, contractAddress);
+                console.log("contract ");
+                const functionABI = contract.methods.isUserRegistered(contractAddress).encodeABI();
+
+                console.log(functionABI);
+                const tx = {
+                    from: sender,
+                    to: contractAddress,
+                    gas: 2000000,
+                    data: functionABI
+                };
+                console.log("tx ");
+                try {
+                    web3.eth.signTransaction(tx)
+                } catch (error) {
+                    console.error("Error with sign:", error)
+                }
+                try {
+                    const receipt = await web3.eth.sendTransaction(tx);
+                    console.log('Transaction sent:', receipt);
+                    alert('Transaction sent successfully.');
+                } catch (error) {
+                    console.error('Error sending transaction:', error);
+                    alert('Error sending transaction. Please check console for details.');
+                }
+
+                alert('Transaction signed successfully.');
+            } catch (error) {
+                console.error('Error signing transaction:', error);
+                alert('Error signing transaction. Please check console for details.');
+            }
+        }
+    </script>
+</body>
+
+</html>
