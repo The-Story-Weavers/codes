@@ -1,0 +1,7 @@
+{
+  "/pts/": {
+      "target": "http://192.168.0.22:8180",
+      "secure": false,
+      "changeOrigin": true
+  }
+}

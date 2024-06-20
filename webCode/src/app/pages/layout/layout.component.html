@@ -1,0 +1,35 @@
+<section class="flex flex-column">
+  <div class="app-header px-md flex align-center justify-between" [ngClass]="{'sticky': isSticky}">
+    <span></span>
+
+
+    <span *ngIf="!walletAddress" class="button-span" (click)="connectWallet()">
+      连接钱包
+    </span>
+
+    <!-- <button *ngIf="!walletAddress" nz-button nzType="primary" (click)="connectWallet()">Connect Wallet</button> -->
+    <ng-container *ngIf="walletAddress">
+      <svg class="mr-sm" width="35" height="35" [data-jdenticon-value]="walletAddress"></svg>
+      <div title="{{walletAddress}}" class="font-display-3 text-white mr-lg common-ellipsis"
+        style="width: 160px;">{{walletAddress}}！</div>
+    </ng-container>
+
+  </div>
+  <div #myElement class="inner-content flex-1" [ngClass]="{'other-content' : curUrl !== '/index/home'}">
+    <!-- <nz-breadcrumb style="margin-top: 16px; margin-left: 150px;" [hidden]="curUrl == '/index/home'">
+      <nz-breadcrumb-item>
+        <a (click)="toHome()"><span nz-icon nzType="home"></span></a>
+        
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a></a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>Application</nz-breadcrumb-item>
+    </nz-breadcrumb> -->
+    <router-outlet />
+    <div class="flex justify-center my-lg" style="color: rgba(153,153,153,0.8);">
+      Copyright © 2024 ONE STORY. All Rights Reserved
+    </div>
+  </div>
+
+</section>

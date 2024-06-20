@@ -1,0 +1,82 @@
+<section class="bg-white" style="margin: 72px 360px;">
+  <div class="pa-lg">
+    <div class="text-align-center">
+      <span class="form-title">新建故事集</span>
+      <img class="float-right" src="/assets/images/close.png" alt="" srcset="" style="cursor: pointer;"
+        (click)="return()">
+    </div>
+    <div class="my-lg note text-align-center">
+      为自己的故事创建一个合集吧，让更多同频的人与你一起创作丰富有趣的故事！
+    </div>
+
+    <form nz-form [formGroup]="validateForm" nzLayout="vertical">
+      <nz-form-item>
+        <nz-form-label nzRequired>名称</nz-form-label>
+        <nz-form-control>
+          <input maxlength="20" type="text" nz-input formControlName="name" placeholder="请输入20以内的名称长度" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>简介</nz-form-label>
+        <nz-form-control>
+          <textarea rows="4" nz-input formControlName="content" placeholder="请输入绿色健康内容"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <nz-form-item>
+        <nz-form-label nzFlex="100px">标签</nz-form-label>
+        <nz-form-control>
+          <nz-tag *ngFor="let tag of tags" nzMode="closeable" (nzOnClose)="handleClose(tag)">
+            {{ tag }}
+          </nz-tag>
+          <nz-tag *ngIf="!inputVisible" class="cursor-pointer" nzNoAnimation (click)="showInput()">
+            <span nz-icon nzType="plus"></span>
+             自定义标签
+          </nz-tag>
+          <input
+            #inputElement
+            nz-input
+            maxlength="10"
+            nzSize="small"
+            formControlName="tagInput"
+            *ngIf="inputVisible && tags.length<5"
+            type="text"
+            style="width: 78px;"
+            (blur)="handleInputConfirm()"
+            (keydown.enter)="handleInputConfirm()"
+          />
+
+          <div class="mt-md">
+            <!-- <nz-tag [nzColor]="'red'" nzMode="checkable"></nz-tag> -->
+            <nz-tag class="cursor-pointer" [nzColor]="'volcano'" (click)="checkTag('悬疑')">悬疑</nz-tag>
+            <nz-tag class="cursor-pointer" [nzColor]="'orange'" (click)="checkTag('都市')">都市</nz-tag>
+            <nz-tag class="cursor-pointer" [nzColor]="'gold'" (click)="checkTag('历史')">历史</nz-tag>
+            <nz-tag class="cursor-pointer" [nzColor]="'lime'" (click)="checkTag('玄幻')">玄幻</nz-tag>
+            <nz-tag class="cursor-pointer" [nzColor]="'green'" (click)="checkTag('武侠')">武侠</nz-tag>
+            <nz-tag class="cursor-pointer" [nzColor]="'cyan'" (click)="checkTag('科幻')">科幻</nz-tag>
+            <!-- <nz-tag [nzColor]="'blue'">blue</nz-tag>
+            <nz-tag [nzColor]="'geekblue'">geekblue</nz-tag>
+            <nz-tag [nzColor]="'purple'">purple</nz-tag> -->
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>封面颜色</nz-form-label>
+        <nz-form-control>
+          <nz-color-picker formControlName="color"></nz-color-picker> 
+        </nz-form-control>
+      </nz-form-item>
+
+      <div class="bottom mt-sm flex justify-end">
+       <span class="btn-default" (click)="handleSave(1)">保存并返回</span>
+        <span class='ml-md btn-primary' (click)="handleSave(2)">去创建故事</span>
+
+      </div>
+    </form>
+
+  </div>
+
+</section>

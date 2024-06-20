@@ -1,0 +1,57 @@
+<section class="home-wrap">
+  <div class="flex flex-column align-center top">
+    <img src="/assets/images/home-logo.png" alt="" srcset="" style="margin-top: 130px;margin-bottom: 40px;">
+    <div *ngIf="!searching">
+      <span class="search-btn mr-lg" (click)="handleCreate()">创建故事</span>
+      <span class="create-btn" (click)="searching = true">寻找故事</span>
+    </div>
+    <nz-input-group class="search-input" *ngIf="searching" nzSearch [nzSuffix]="suffixIcon" nzSize="large"
+      style="width: 600px;">
+      <input type="text" nz-input placeholder="搜标签 故事合集" (keyup.enter)="searchStory()" />
+    </nz-input-group>
+    <ng-template #suffixIcon>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </div>
+  <div style="padding: 0 185px;margin-top: 40px;">
+    <div *ngIf="!showSearchResult" class="flex justify-between mb-lg">
+      <div>
+        <span class="filter-span selected">热门作品</span>
+        <span class="filter-span">最新作品</span>
+        <span class="filter-span">最多支线</span>
+      </div>
+      <div>
+        <label nz-checkbox [(ngModel)]="myChecked">我参与的</label>
+      </div>
+
+    </div>
+
+    <div *ngIf="showSearchResult" class="flex justify-between mb-lg">
+      <span style="color: #999;">共找到 <span style="color:#333">25</span> 个结果</span>
+      <span>
+        <img src="/assets/images/close.png" alt="" srcset="" style="cursor: pointer;" (click)="return()">
+      </span>
+    </div>
+
+
+    <div class="flex flex-wrap justify-start">
+      <app-story-card (click)="toStory(item)" [ngStyle]="{
+            'margin-right': i != 0 && (i + 1) % 4 === 0 ? '0' : '24px',
+            'margin-top': i > 3 ? '26px' : '0'
+          }" *ngFor="let item of storyList; let i = index" [story]="item"></app-story-card>
+    </div>
+    <div class="flex flex-column flex-center full-height" *ngIf="!storyList.length">
+      <nz-empty style="margin-top: 120px;margin-bottom: 120px;" nzNotFoundContent="暂无故事"></nz-empty>
+    </div>
+
+    <!-- 分页器开始 -->
+    <div *ngIf="storyList.length" class="flex justify-center" style="margin-top: 56px;margin-bottom: 60px;">
+      <nz-pagination class="mr-sm" (nzPageIndexChange)="nzPageChange()" [nzTotal]="page.total" [(nzPageIndex)]="page.page"
+        [(nzPageSize)]="page.size" nzShowQuickJumper>
+      </nz-pagination>
+    </div>
+    <!-- 分页器开始 -->
+
+
+  </div>
+</section>
