@@ -1,5 +1,6 @@
 .home-wrap {
     background-color: #EDF1F2;
+    overflow: hidden;
     .top {
         height: 572px;
         background-image: url("/assets/images/home-bg.png");
@@ -25,5 +26,28 @@
         width: 606px;
         height: 54px;
         border-radius: 20px;
+    }
+    .content {
+        margin-top: 40px;
+        padding: 0 10%;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    app-story-card {
+        width: 23.5%;
+        margin-right: 2%;
+        &:nth-child(4n+4) {
+            margin-right: 0;
+        }
+    }
+}
+@media screen and (max-width: 1500px) {
+    app-story-card {
+        width: 32%;
+        margin-right: 2%;
+        &:nth-child(3n+3) {
+            margin-right: 0;
+        }
     }
 }

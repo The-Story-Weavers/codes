@@ -28,4 +28,8 @@ export class StoryDetailComponent {
   }
   nzPageChange(isReset = false) {}
 
+  toHome(){
+    this.router.navigate(['/index/home'])
+  }
+
 }

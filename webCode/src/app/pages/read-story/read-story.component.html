@@ -1,4 +1,15 @@
-<section [hidden]="!catalogShow" class="bg-white" style="margin: 72px 360px;">
+<div style="margin: 24px 18%;">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <a (click)="return()"><span nz-icon nzType="home"></span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a>故事集名称</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>故事标题混在末日，独自成仙</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+<section [hidden]="!catalogShow" class="bg-white" style="margin: 24px 18% 40px 18%;">
   <div class="pa-lg">
     <div class="text-align-center">
       <span class="form-title">目录</span>
@@ -27,7 +38,7 @@
 
 </section>
 
-<section [hidden]="catalogShow" class="bg-white" style="margin: 72px 360px;padding: 40px;">
+<section [hidden]="catalogShow" class="bg-white" style="margin: 24px 18% 40px 18%;padding: 40px;">
 
   <span class="mb-md" style="font-size: 26px;margin-top: 40px;">{{curPage}} {{catalog[curPage]}}</span>
   <div class="mb-lg" style="color: #999;">
@@ -36,6 +47,12 @@
     <span nz-icon nzType="clock-circle" nzTheme="outline"></span><span class="ml-sm">2024-06-16 16:45:08</span>
   </div>
   <div class="content" [innerHTML]="content | html">
+  </div>
+  <div class="text-right" style="margin-top: 60px;">
+    
+    <span class="btn-primary" (click)="continue()">续写故事</span>
+    <span class="ml-md btn-default" (click)="createOtherLine()">另起支线</span>
+    <span class="ml-md btn-default gray"><img class="mr-xs" src="/assets/images/frog.png" alt="" srcset="">373</span>
   </div>
 
 

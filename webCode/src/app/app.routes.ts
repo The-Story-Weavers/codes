@@ -25,8 +25,15 @@ export const routes: Routes = [
       {
         path: 'read',
         loadComponent: () => import('./pages/read-story/read-story.component').then((module) => module.ReadStoryComponent)
+      },
+      {
+        path: 'continue-story',
+        loadComponent: () => import('./pages/continue-story/continue-story.component').then((module) => module.ContinueStoryComponent)
+      },
+      {
+        path: 'other-line',
+        loadComponent: () => import('./pages/create-other-line/create-other-line.component').then((module) => module.CreateOtherLineComponent)
       }
-      
     ]
   },
   { path: '**', redirectTo: '/index/home'}

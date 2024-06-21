@@ -1,6 +1,9 @@
 // -------- 引入官方提供的 less 样式入口文件 -----------
 @import "./global_zorro.less";
 
+html,body{
+  overflow: hidden;
+}
 // 滚动条
 ::-webkit-scrollbar {
   /*滚动条整体样式*/
@@ -279,4 +282,10 @@ nz-table-inner-scroll {
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.text-right {
+  text-align: right;
+}
+.form-title {
+  font-size: 26px;
 }

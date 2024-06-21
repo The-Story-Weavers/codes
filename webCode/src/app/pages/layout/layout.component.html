@@ -1,6 +1,11 @@
 <section class="flex flex-column">
   <div class="app-header px-md flex align-center justify-between" [ngClass]="{'sticky': isSticky}">
-    <span></span>
+    <span>
+      <img *ngIf="isSticky" class="cursor-pointer" src="/assets/images/logo.png" alt="" srcset="" (click)="toHome()">
+    </span>
+    <!-- <span class="button-span" (click)="aa()">
+      连接节点
+    </span> -->
 
 
     <span *ngIf="!walletAddress" class="button-span" (click)="connectWallet()">
@@ -8,11 +13,11 @@
     </span>
 
     <!-- <button *ngIf="!walletAddress" nz-button nzType="primary" (click)="connectWallet()">Connect Wallet</button> -->
-    <ng-container *ngIf="walletAddress">
+    <div class="flex align-center" *ngIf="walletAddress">
       <svg class="mr-sm" width="35" height="35" [data-jdenticon-value]="walletAddress"></svg>
       <div title="{{walletAddress}}" class="font-display-3 text-white mr-lg common-ellipsis"
         style="width: 160px;">{{walletAddress}}！</div>
-    </ng-container>
+    </div>
 
   </div>
   <div #myElement class="inner-content flex-1" [ngClass]="{'other-content' : curUrl !== '/index/home'}">

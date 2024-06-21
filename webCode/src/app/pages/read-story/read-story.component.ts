@@ -26,6 +26,12 @@ export class ReadStoryComponent {
   toDetail(page) {
     this.catalogShow = false;
   }
+  continue() {
+    this.router.navigate(['/index/continue-story']);
+  }
+  createOtherLine() {
+    this.router.navigate(['/index/other-line']);
+  }
 
   return() {
     this.router.navigate(['/index/home']);

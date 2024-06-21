@@ -11,3 +11,22 @@
     width: 214px;
     border-radius: 20px;
 }
+
+@media screen and (min-width: 1600px) {
+    app-story-line-card {
+        width: 32%;
+        margin-right: 2%;
+        &:nth-child(3n+3) {
+            margin-right: 0;
+        }
+    }
+}
+@media screen and (max-width: 1600px) {
+    app-story-line-card {
+        width: 49%;
+        margin-right: 2%;
+        &:nth-child(2n+2) {
+            margin-right: 0;
+        }
+    }
+}

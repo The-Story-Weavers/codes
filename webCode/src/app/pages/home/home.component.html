@@ -13,7 +13,7 @@
       <span nz-icon nzType="search"></span>
     </ng-template>
   </div>
-  <div style="padding: 0 185px;margin-top: 40px;">
+  <div class="content">
     <div *ngIf="!showSearchResult" class="flex justify-between mb-lg">
       <div>
         <span class="filter-span selected">热门作品</span>
@@ -34,11 +34,8 @@
     </div>
 
 
-    <div class="flex flex-wrap justify-start">
-      <app-story-card (click)="toStory(item)" [ngStyle]="{
-            'margin-right': i != 0 && (i + 1) % 4 === 0 ? '0' : '24px',
-            'margin-top': i > 3 ? '26px' : '0'
-          }" *ngFor="let item of storyList; let i = index" [story]="item"></app-story-card>
+    <div class="flex flex-wrap justify-start aa">
+      <app-story-card class="mb-lg" (click)="toStory(item)" *ngFor="let item of storyList; let i = index" [story]="item"></app-story-card>
     </div>
     <div class="flex flex-column flex-center full-height" *ngIf="!storyList.length">
       <nz-empty style="margin-top: 120px;margin-bottom: 120px;" nzNotFoundContent="暂无故事"></nz-empty>

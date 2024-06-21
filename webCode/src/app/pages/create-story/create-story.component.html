@@ -1,4 +1,12 @@
-<section class="bg-white" style="margin: 72px 360px;">
+<div style="margin:24px 18%;">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <a (click)="return()"><span nz-icon nzType="home"></span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>新建故事集</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+<section class="bg-white" style="margin: 24px 18%;">
   <div class="pa-lg">
     <div class="text-align-center">
       <span class="form-title">新建故事集</span>
@@ -31,7 +39,7 @@
           <nz-tag *ngFor="let tag of tags" nzMode="closeable" (nzOnClose)="handleClose(tag)">
             {{ tag }}
           </nz-tag>
-          <nz-tag *ngIf="!inputVisible" class="cursor-pointer" nzNoAnimation (click)="showInput()">
+          <nz-tag *ngIf="!inputVisible && tags.length<5" class="cursor-pointer" nzNoAnimation (click)="showInput()">
             <span nz-icon nzType="plus"></span>
              自定义标签
           </nz-tag>
