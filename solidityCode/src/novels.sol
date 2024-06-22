@@ -1,24 +1,40 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
-contract NovelPlatform {
-    error UsrNotRegisted(address user);
-    error UsrAlreadyRegisted(address user);
+import "../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
+
+contract NovelPlatform is Ownable {
+    error UsrNotRegisted(address user); // 用户未注册
+    error RepeatRegisted(address user); // 重复注册
+    error ArticleAlreadyThumbup(address user, bytes32 textHex); // 重复投币
+    error RepeatUpload(bytes32 textHex); // 重复上传
+    error NoEnoughFrog(); // 币不足
+    error CanNotThumbupSelf(); // 不能投币给自己的文章
+    error NoArticleInfo(); // 文章不存在
+    error RewardFailed(); // 打赏失败
+
     event UserRegistered(address indexed user); // 用户注册
     event UserLoggedIn(address indexed user); // 用户登录
     event RechargeMember(address indexed user); // 充值会员
     event AddArticle_(address indexed user, bytes32 textHex); // 上传文字
-    event DistributeFrag(address indexed user, uint8 num); // 发代币
-
-    uint8 constant distributeNum = 2; // Number of frogs distributed each time
+    event DistributeFrag(address indexed user, uint8 num); // 领币
+    event ThumbUp_(address indexed user, address indexed writer); // 投币
+    event setUpDistributeNum(uint8 num); // 修改每日领币数量
+    event Transform(
+        address indexed sender,
+        address indexed receiver,
+        uint256 value
+    ); // 交易信息
+    event fallbackCalled(address Sender, uint256 Value, bytes Data); // fallback信息
 
     //define user data
     struct User {
         uint256 lastLoginTime;
         uint256 frog;
-        bool isRegisted;
+        bool isRegistered;
         bool isMember;
         bytes32[] textHex;
+        mapping(bytes32 => bool) thumbupHistory;
     }
     //define text data
     struct Text {
@@ -26,42 +42,69 @@ contract NovelPlatform {
         uint256 uploadTime;
     }
 
-    mapping(address => User) private registeredUsers; // save user data
-    mapping(bytes32 => Text) private textData; // save text data
+    uint8 public DistributeFragNum; // Number of frogs distributed each time
+    mapping(address => User) public registeredUsers; // save user data
+    mapping(bytes32 => Text) public textData; // save text data
+
+    constructor() Ownable(msg.sender) {
+        DistributeFragNum = 2;
+    }
+
+    receive() external payable {
+        emit Transform(msg.sender, address(this), msg.value);
+    }
+
+    fallback() external payable {
+        emit fallbackCalled(msg.sender, msg.value, msg.data);
+    }
+
+    // 禁用renounceOwnership
+    function renounceOwnership() public view override onlyOwner {
+        revert("renounceOwnership is disabled");
+    }
+
+    // 设定每日发放数量
+    function setupDistrubuteNum(uint8 num) external onlyOwner {
+        DistributeFragNum = num;
+        emit setUpDistributeNum(num);
+    }
 
     // 注册新用户
     function registerUser() external {
-        if (registeredUsers[msg.sender].isRegisted) {
-            revert UsrAlreadyRegisted(msg.sender);
+        if (registeredUsers[msg.sender].isRegistered) {
+            revert RepeatRegisted(msg.sender);
         }
-        registeredUsers[msg.sender].isRegisted = true;
-        registeredUsers[msg.sender].frog = distributeNum; // distribute frag
+        registeredUsers[msg.sender].isRegistered = true;
+        registeredUsers[msg.sender].frog = DistributeFragNum; // distribute frag
         emit UserRegistered(msg.sender);
-        emit DistributeFrag(msg.sender, distributeNum);
+        emit DistributeFrag(msg.sender, DistributeFragNum);
     }
 
     // 登录
     function loginUser() external {
-        if (!registeredUsers[msg.sender].isRegisted) {
+        if (!registeredUsers[msg.sender].isRegistered) {
             revert UsrNotRegisted(msg.sender);
         }
         emit UserLoggedIn(msg.sender);
         // 每日首次登录发放青蛙
         if (isAfterMidnight(registeredUsers[msg.sender].lastLoginTime)) {
-            registeredUsers[msg.sender].frog += distributeNum;
-            emit DistributeFrag(msg.sender, distributeNum);
+            registeredUsers[msg.sender].frog += DistributeFragNum;
+            emit DistributeFrag(msg.sender, DistributeFragNum);
         }
     }
 
     // 检查用户是否已注册
     function isUserRegistered(address user) external view returns (bool) {
-        return registeredUsers[user].isRegisted;
+        return registeredUsers[user].isRegistered;
     }
 
+    // 上传文字
     function addArticle(bytes32 textHex) external returns (bool) {
-        User memory user = registeredUsers[msg.sender];
-        if (!user.isRegisted) {
+        if (!registeredUsers[msg.sender].isRegistered) {
             revert UsrNotRegisted(msg.sender);
+        }
+        if (textData[textHex].owner != address(0)) {
+            revert RepeatUpload(textHex);
         }
         textData[textHex].owner = msg.sender;
         textData[textHex].uploadTime = block.timestamp;
@@ -70,15 +113,56 @@ contract NovelPlatform {
         return true;
     }
 
-    function getArticle(bytes32 textHex) external view returns (bool) {
-        if (textData[textHex].uploadTime != 0) {
-            return true;
+    // 投币
+    function thumbsUp(bytes32 textHex) external {
+        User storage user = registeredUsers[msg.sender];
+        if (!user.isRegistered) {
+            revert UsrNotRegisted(msg.sender);
         }
-        return false;
+        if (user.thumbupHistory[textHex]) {
+            revert ArticleAlreadyThumbup(msg.sender, textHex);
+        }
+        if (user.frog < 1) {
+            revert NoEnoughFrog();
+        }
+        if (textData[textHex].uploadTime == 0) {
+            revert NoArticleInfo();
+        }
+
+        address writer = textData[textHex].owner;
+        if (writer == msg.sender) {
+            revert CanNotThumbupSelf();
+        }
+        user.frog -= 1;
+        registeredUsers[writer].frog += 1;
+        user.thumbupHistory[textHex] = true;
+        emit ThumbUp_(msg.sender, writer);
+    }
+
+    // 打赏
+    function RewardArticle(bytes32 textHex) external payable {
+        User storage user = registeredUsers[msg.sender];
+        address payable writer = payable(textData[textHex].owner);
+        if (!user.isRegistered) {
+            revert UsrNotRegisted(msg.sender);
+        }
+        if (textData[textHex].uploadTime == 0) {
+            revert NoArticleInfo();
+        }
+        bool success = writer.send(msg.value);
+        if (!success) {
+            revert RewardFailed();
+        }
+        emit Transform(msg.sender, writer, msg.value);
+    }
+
+    // 生成文章哈希值
+    function generateHash(string memory input) public pure returns (bytes32) {
+        return keccak256(abi.encodePacked(input));
     }
 
     // 判断时间戳是否在今天的 00:00 点之后
-    function isAfterMidnight(uint256 timestamp) public view returns (bool) {
+    function isAfterMidnight(uint256 timestamp) internal view returns (bool) {
         // 获取今天的 00:00 点的时间戳
         uint256 todayMidnight = getTodayMidnightTimestamp();
 
