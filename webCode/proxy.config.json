@@ -1,7 +1,17 @@
 {
-  "/pts/": {
-      "target": "http://192.168.0.22:8180",
-      "secure": false,
-      "changeOrigin": true
+  "/portfolio/": {
+    "target": "http://43964t1p50.zicp.fun/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/story/": {
+    "target": "http://43964t1p50.zicp.fun/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/chapter/": {
+    "target": "http://43964t1p50.zicp.fun/",
+    "secure": false,
+    "changeOrigin": true
   }
 }

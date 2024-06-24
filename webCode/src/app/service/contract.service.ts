@@ -42,8 +42,18 @@ export class ContractService {
   }
 
   async connectNetwork() {
-    const contract = new ethers.Contract("0x06012c8cf97BEaD5deAe237070F9587f8E7A266d", ABI, this.provider.getSigner());
-    console.log(contract.methods);
+    // const contract = new ethers.Contract("0x06012c8cf97BEaD5deAe237070F9587f8E7A266d", ABI, this.provider.getSigner());
+    // console.log(contract.methods);
+    // 合约地址
+const contractAddress = "0x847397fd307123A92A1fDa48b46B082dcDd3bA30";
+ 
+// 初始化Provider
+const provider = new ethers.JsonRpcProvider("https://rpc.sepolia.linea.build");
+console.log(provider);
+
+ 
+// 创建一个合约实例
+// const contract = new ethers.Contract(contractAddress, contractAbi, provider);
     
   }
 }

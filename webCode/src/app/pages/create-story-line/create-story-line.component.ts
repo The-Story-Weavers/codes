@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpService } from 'src/app/service/http.service';
 import { ToolsService } from 'src/app/service/tools.service';
 import { ShareModule } from 'src/app/share/share.module';
 
@@ -16,17 +17,18 @@ export class CreateStoryLineComponent {
   validateForm: FormGroup;
   tags = [];
   inputVisible = false;
-  urlToName = {
-
-  }
+  storyName = "";
+  storyId = "";
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private http: HttpService,
     private toolsService: ToolsService
   ) {
-
     this.validateForm = this.fb.group({
       name: [''],
+      remarks:[''],
       pageName:[''],
       content: [''],
       isFinished:[false]
@@ -35,37 +37,33 @@ export class CreateStoryLineComponent {
    
   }
 
-  handleClose(removedTag: {}): void {
-    this.tags = this.tags.filter(tag => tag !== removedTag);
+  ngOnInit() {
+    this.storyId = this.activatedRoute.snapshot.queryParams["id"];
+    this.storyName = this.activatedRoute.snapshot.queryParams["name"];
+    
   }
 
-  showInput(): void {
-    this.inputVisible = true;
-  }
-
-  handleInputConfirm(): void {
-    if (this.validateForm.value.tagInput && this.tags.indexOf(this.validateForm.value.tagInput) === -1) {
-      this.tags = [...this.tags, this.validateForm.value.tagInput];
-    }
-    this.validateForm.patchValue({
-      tagInput:''
-    })
-    this.inputVisible = false;
-  }
-  checkTag(tag:string) {
-    if (this.tags.indexOf(tag) === -1) {
-      this.tags = [...this.tags, tag];
-    } else {
-      this.tags = this.tags.filter(item => item !== tag);
-    }
-  }
-
-  sliceTagName(tag: string): string {
-    const isLongTag = tag.length > 20;
-    return isLongTag ? `${tag.slice(0, 20)}...` : tag;
-  }
   handleSave() {
-    console.log(this.validateForm.value.content);
+    const user = sessionStorage.getItem('walletAddress')
+    if(!user) {
+      this.toolsService.tip("warning","请连接钱包")
+      return
+    }
+    const values = this.validateForm.getRawValue();
+    this.http.post('/story/saveStory',{
+      stitle: values.name,
+      remarks: values.remarks,
+      screator: user,
+      pid:this.storyId,
+      isend: values.isFinished?1:0,
+      ctitle: values.pageName,
+      content: values.content,
+      author: user
+    }).then(res=>{
+      if(res.code == 200) {
+      
+      }
+    })
     
    
   }

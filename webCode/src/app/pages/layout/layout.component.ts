@@ -69,7 +69,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   connectWallet() {
      this.contractService.connectWallet().then((res:JsonRpcSigner)=>{
-      // console.log(res);
+      console.log(res);
       
       this.walletAddress = res?.address;
       sessionStorage.setItem("walletAddress",this.walletAddress)

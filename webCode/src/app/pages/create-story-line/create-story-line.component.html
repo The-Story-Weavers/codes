@@ -4,7 +4,7 @@
       <a (click)="return()"><span nz-icon nzType="home"></span></a>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item>
-      <a>故事集名称</a>
+      <a>{{storyName}}</a>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item>新建故事线</nz-breadcrumb-item>
   </nz-breadcrumb>
@@ -17,12 +17,19 @@
         <img class="float-right" src="/assets/images/close.png" alt="" srcset="" style="cursor: pointer;"
           (click)="return()">
       </div>
+
   
       <form nz-form [formGroup]="validateForm" nzLayout="vertical">
         <nz-form-item>
-          <nz-form-label nzRequired>故事名称</nz-form-label>
+          <nz-form-label nzRequired>名称</nz-form-label>
           <nz-form-control>
             <input maxlength="20" type="text" nz-input formControlName="name" placeholder="请输入20以内的名称长度" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>备注</nz-form-label>
+          <nz-form-control>
+            <textarea rows="4" nz-input formControlName="remarks" placeholder="请输入绿色健康内容"></textarea>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -33,7 +40,7 @@
         </nz-form-item>
   
         <nz-form-item>
-          <nz-form-label nzRequired>章节内容 <span style="color: #999;">（换行使用 <nz-tag>/br</nz-tag> 代替）</span></nz-form-label>
+          <nz-form-label nzRequired>章节内容</nz-form-label>
           <nz-form-control>
             <textarea rows="10" nz-input formControlName="content" placeholder="请输入绿色健康内容"></textarea>
           </nz-form-control>

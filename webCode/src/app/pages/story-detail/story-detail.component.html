@@ -3,7 +3,7 @@
     <nz-breadcrumb-item>
       <a (click)="toHome()"><span nz-icon nzType="home"></span></a>
     </nz-breadcrumb-item>
-    <nz-breadcrumb-item>故事集名称</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{story?.ptitle}}</nz-breadcrumb-item>
   </nz-breadcrumb>
 </div>
 <section style="margin: 24px 10% 40px 10%;">
@@ -11,12 +11,10 @@
     <div class="flex">
       <div class="mr-md" style="background-color: skyblue;width: 180px;height: 198px;"></div>
       <div>
-        <div style="font-size: 26px;"><strong>故事标题混在末日，独自成仙</strong></div>
-        <div class="my-md">发起者：用户名称</div>
+        <div style="font-size: 26px;"><strong>{{story?.ptitle}}</strong></div>
+        <div class="my-md">发起者：{{story?.creator}}</div>
         <div>
-          <span class="common-tag mr-xs">二创</span>
-          <span class="common-tag mr-xs">玄幻</span>
-          <span class="common-tag">孙悟空</span>
+          <span *ngFor="let item of story?.labels" class="common-tag mr-xs">{{item}}</span>
         </div>
         <div class="my-md" style="color: #999;">最近更新时间：2024-06-16 16</div>
         <div>
@@ -32,12 +30,9 @@
 
     <div class="divider"></div>
     <div class="mb-md" style="font-size: 20px;">
-      <strong>合集简介</strong>
+      <strong>简介</strong>
     </div>
-    <div>
-      这是一个支离破碎的世界，人类文明在刃兽灾这是一个支离破碎的世界，人类文明在刃兽灾这是一个支离破碎的世界，
-      人类文明在刃兽灾这是一个支离破碎的世界，人类文明在刃兽灾这是一个支离破碎的世界，人类文明在刃兽灾这是一个支离破碎的世界，人类文明在刃兽灾
-    </div>
+    <div>{{story?.introduce}}</div>
   </div>
   <div class="flex justify-between mb-lg" style="margin-top: 40px;">
     <div>
@@ -47,7 +42,7 @@
     <div>
       <label class="mr-lg" nz-checkbox [(ngModel)]="myChecked">我参与的</label>
       <nz-input-group class="search-input" nzSearch [nzSuffix]="suffixIcon">
-        <input type="text" nz-input placeholder="故事线名称" (keyup.enter)="searchLine()" />
+        <input type="text" nz-input placeholder="故事线名称" [(ngModel)]="keyName" (keyup.enter)="searchLine()" />
       </nz-input-group>
       <ng-template #suffixIcon>
         <span nz-icon nzType="search"></span>
@@ -61,6 +56,7 @@
   </div>
   <div class="flex flex-column flex-center full-height" *ngIf="!lineList.length">
     <nz-empty style="margin-top: 120px;margin-bottom: 120px;" nzNotFoundContent="暂无故事"></nz-empty>
+    <span class='ml-md btn-primary' (click)="handleSave()">去创建故事</span>
   </div>
 
   <!-- 分页器开始 -->

@@ -1,23 +1,23 @@
 <section class="bg-white pb-md">
     <div class="flex px-lg pt-lg pb-md" >
-      <div class="mr-md" style="background-color: skyblue;width: 56px;height: 76px;"></div>
+      <div class="mr-md" [style.background-color]="story?.bgcolor" style="width: 56px;height: 76px;"></div>
       <div>
-        <div><strong>故事标题混在末日，独自成仙</strong></div>
-        <div style="margin-top: 6px;margin-bottom: 6px;">发起者：用户名称</div>
+        <div><strong>{{story?.ptitle}}</strong></div>
+        <div style="margin-top: 6px;margin-bottom: 6px;">发起者：<span class="common-ellipsis">{{story?.creator}}</span></div>
         <div>
-            <span class="common-tag mr-xs">二创</span>
-            <span class="common-tag mr-xs">玄幻</span>
-            <span class="common-tag">孙悟空</span>
+            <span *ngFor="let item of story?.labels" class="common-tag mr-xs">{{item}}</span>
+            <!-- <span class="common-tag mr-xs">玄幻</span>
+            <span class="common-tag">孙悟空</span> -->
         </div>
       </div>
     </div>
     <div class="intro-ellipsis px-lg pb-md">
-        这是一个支离破碎的世界，人类文明在刃兽灾这是一个支离破碎的世界，人类文明在刃兽灾这是一个支离破碎的世界，人类文明在刃兽灾
+       {{story?.introduce}}
     </div>
     <div class="divider"></div>
     <div class="footer py-md px-lg">
         <span nz-icon nzType="team" nzTheme="outline"></span><label class="ml-xs" for="">3</label>
-        <img class="ml-md" style="width: 16px;" src="/assets/images/frog.png" alt="" srcset=""><label class="ml-xs" for="">6</label>
+        <img class="ml-md" style="width: 18px;" src="/assets/images/frog.png" alt="" srcset=""><label class="ml-xs" for="">6</label>
         <span class="ml-md" nz-icon nzType="eye" nzTheme="outline"></span><label class="ml-xs" for="">25</label>
         <span class="ml-md" nz-icon nzType="branches" nzTheme="outline"></span><label class="ml-xs" for="">5</label>
     </div>
