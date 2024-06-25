@@ -21,18 +21,11 @@
 
   </div>
   <div #myElement class="inner-content flex-1" [ngClass]="{'other-content' : curUrl !== '/index/home'}">
-    <!-- <nz-breadcrumb style="margin-top: 16px; margin-left: 150px;" [hidden]="curUrl == '/index/home'">
-      <nz-breadcrumb-item>
-        <a (click)="toHome()"><span nz-icon nzType="home"></span></a>
-        
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>
-        <a></a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>Application</nz-breadcrumb-item>
-    </nz-breadcrumb> -->
     <router-outlet />
-    <div class="flex justify-center my-lg" style="color: rgba(153,153,153,0.8);">
+    <div class="divider mt-lg">
+
+    </div>
+    <div class="flex justify-center mb-lg mt-md" style="color: rgba(153,153,153,0.8);">
       Copyright © 2024 ONE STORY. All Rights Reserved
     </div>
   </div>

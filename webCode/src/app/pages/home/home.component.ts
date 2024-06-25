@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   showSearchResult = false;
   storyList = [];
   page = new Page();
+  key = "";
 
   constructor(private router: Router,private http: HttpService) {
   }
@@ -26,25 +27,24 @@ export class HomeComponent implements OnInit {
     this.searchStory()
   }
 
-  searchStory() {
+  searchStory(showResultNum?) {
     this.http.post("/portfolio/findAllPortfolio",{
       pageNum: 1,
       pageSize: 16,
-      // searchName:''
+      searchName: this.key
     }).then(res=>{
-      console.log(res);
       if(res.code == 200) {
         this.page.total =res.data.total;
         this.storyList = res.data.records;
         this.storyList.map(val=>{
           val.labels = val.labels?.split(",")
         })
-
-      }
-      
+        if(showResultNum) {
+          this.showSearchResult = true
+        }
+      }  
     })
-    // ------------------
-    this.showSearchResult = true
+   
   }
   handleCreate() {
     this.router.navigate(['/index/create-story']);
@@ -52,19 +52,17 @@ export class HomeComponent implements OnInit {
   return() {
     this.showSearchResult = false;
     this.searching = false;
+    this.key = ''
+    this.searchStory()
     // 重新搜索
   }
   toStory(story) {
     this.router.navigate(['/index/story-detail'],{ queryParams: { id: story.id }});
   }
 
-  nzPageChange(isReset = false) {
-    console.log(1112);
-    
+  nzPageChange() {
+    this.searchStory()
   }
-
-
-
   ngOnDestroy() {}
 
 }

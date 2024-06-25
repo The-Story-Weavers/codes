@@ -52,6 +52,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
       }
       // 这里处理滚动事件
       const height = this.myElement.nativeElement.scrollTop;
+      console.log(height);
+      
       if(height>50) {
         this.isSticky = true
       } else {

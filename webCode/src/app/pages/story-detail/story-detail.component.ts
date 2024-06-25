@@ -21,18 +21,19 @@ export class StoryDetailComponent {
   pid = null
 
   constructor(private router: Router,private activatedRoute: ActivatedRoute,private http: HttpService) {
-    this.page.total = 1000
+    this.page.size = 12
   }
   ngOnInit() {
     this.pid = this.activatedRoute.snapshot.queryParams["id"];
     this.http.post("/portfolio/findPortDetail",{
       pid: this.pid,
     }).then(res=>{
-
-      console.log(res);
       if(res.code == 200) {
-        res.data.labels = res.data.labels.labels?.split(",")
-        this.story = res.data
+        res.data.labels = res.data.labels?.split(",")
+        res.data.createTime = new Date(res.data.createTime).toLocaleString();
+        this.story = res.data;
+        sessionStorage.setItem("themeName",this.story.ptitle)
+        sessionStorage.setItem("themeId",this.pid)
       }
       
     })
@@ -44,39 +45,39 @@ export class StoryDetailComponent {
   searchLine() {
     this.http.post("/story/findAllStory",{
       pid: this.pid,
-      pageNum: 1,
-      pageSize: 12,
+      pageNum: this.page.page,
+      pageSize: this.page.size,
       stitle:this.keyName
     }).then(res=>{
       if(res.code == 200) {
         this.lineList = res.data.records;
+        this.lineList.map(val=>{
+          val.pageNum = val.chapters.length;
+          val.updateTime = new Date(val.updateTime).toLocaleString();
+          const authors = new Set<string>();
+          val.chapters.map(item=>{
+            authors.add(item.author)
+          })
+          const arr= Array.from(authors)
+          
+          val.otherLength = arr.length>3?arr.length-3:0;
+          val.authorArr = arr.slice(0, 3);
+        })
         this.page.total = res.data.total
       }
       
     })
   }
   toDetail(line) {
-    this.router.navigate(["/index/read"],{ queryParams: { id: line.sid }})
+    this.router.navigate(["/index/read"],{ queryParams: { id: line.sid,name:line.stitle }})
   }
-  nzPageChange(isReset = false) {}
+  nzPageChange() {
+    this.searchLine()
+
+
+  }
 
   handleSave() {
-    // const values = this.validateForm.getRawValue();
-    // const user = sessionStorage.getItem('walletAddress')
-    // if(index == 1) {
-    //   this.http.post('/portfolio/savePortfolio',{
-    //     ptitle: values.name,
-    //     introduce: values.content,
-    //     bgcolor: values.color,
-    //     creator: user,
-    //     labels: this.tags
-    //   }).then(res=>{
-    //     console.log(res);
-        
-    //   })
-    // } else {
-      
-    // }
     this.router.navigate(['/index/create-line'],{ queryParams: { id: this.story?.id,name: this.story?.ptitle}})
    
   }

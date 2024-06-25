@@ -7,7 +7,7 @@
     </div>
     <nz-input-group class="search-input" *ngIf="searching" nzSearch [nzSuffix]="suffixIcon" nzSize="large"
       style="width: 600px;">
-      <input type="text" nz-input placeholder="搜标签 故事合集" (keyup.enter)="searchStory()" />
+      <input type="text" nz-input placeholder="搜标签 故事合集" [(ngModel)]="key" (keyup.enter)="searchStory(true)" />
     </nz-input-group>
     <ng-template #suffixIcon>
       <span nz-icon nzType="search"></span>
@@ -27,18 +27,18 @@
     </div>
 
     <div *ngIf="showSearchResult" class="flex justify-between mb-lg">
-      <span style="color: #999;">共找到 <span style="color:#333">25</span> 个结果</span>
+      <span style="color: #999;">共找到 <span style="color:#333">{{page.total}}</span> 个结果</span>
       <span>
         <img src="/assets/images/close.png" alt="" srcset="" style="cursor: pointer;" (click)="return()">
       </span>
     </div>
 
 
-    <div class="flex flex-wrap justify-start aa">
+    <div class="flex flex-wrap justify-start">
       <app-story-card class="mb-lg" (click)="toStory(item)" *ngFor="let item of storyList; let i = index" [story]="item"></app-story-card>
     </div>
     <div class="flex flex-column flex-center full-height" *ngIf="!storyList.length">
-      <nz-empty style="margin-top: 120px;margin-bottom: 120px;" nzNotFoundContent="暂无故事"></nz-empty>
+      <nz-empty style="margin-top: 120px;margin-bottom: 120px;" nzNotFoundContent="暂无数据"></nz-empty>
     </div>
 
     <!-- 分页器开始 -->

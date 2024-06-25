@@ -42,7 +42,6 @@ export class ContinueStoryComponent {
   }
 
   handleSave() {
-    console.log(this.validateForm.value.content);
     const user = sessionStorage.getItem('walletAddress')
     if(!user) {
       this.toolsService.tip("warning","请连接钱包")
@@ -65,6 +64,6 @@ export class ContinueStoryComponent {
   }
 
   return() {
-    this.router.navigate(['/index/home'])
+    this.router.navigate(['/index/read'],{ queryParams: { id: this.storyId }});
   }
 }

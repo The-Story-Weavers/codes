@@ -6,459 +6,289 @@ export class Page {
 
 export const tipConfig = {
   nzDuration: 2000,
-  nzPauseOnHover: true
-}
+  nzPauseOnHover: true,
+};
 // 接口过滤白名单 不弹窗，不做任何处理
 export const whiteList = [];
 
-export const ABI  = [
+export const ABI = [
+  { type: "constructor", inputs: [], stateMutability: "nonpayable" },
+  { type: "fallback", stateMutability: "payable" },
+  { type: "receive", stateMutability: "payable" },
   {
-    "constant": false,
-    "inputs": [
+    type: "function",
+    name: "DistributeFragNum",
+    inputs: [],
+    outputs: [{ name: "", type: "uint8", internalType: "uint8" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "RewardArticle",
+    inputs: [{ name: "textHex", type: "bytes32", internalType: "bytes32" }],
+    outputs: [],
+    stateMutability: "payable",
+  },
+  {
+    type: "function",
+    name: "addArticle",
+    inputs: [{ name: "textHex", type: "bytes32", internalType: "bytes32" }],
+    outputs: [{ name: "", type: "bool", internalType: "bool" }],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "generateHash",
+    inputs: [{ name: "input", type: "string", internalType: "string" }],
+    outputs: [{ name: "", type: "bytes32", internalType: "bytes32" }],
+    stateMutability: "pure",
+  },
+  {
+    type: "function",
+    name: "isUserRegistered",
+    inputs: [{ name: "user", type: "address", internalType: "address" }],
+    outputs: [{ name: "", type: "bool", internalType: "bool" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "loginUser",
+    inputs: [],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "owner",
+    inputs: [],
+    outputs: [{ name: "", type: "address", internalType: "address" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "registerUser",
+    inputs: [],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "registeredUsers",
+    inputs: [{ name: "", type: "address", internalType: "address" }],
+    outputs: [
+      { name: "lastLoginTime", type: "uint256", internalType: "uint256" },
+      { name: "frog", type: "uint256", internalType: "uint256" },
+      { name: "isRegistered", type: "bool", internalType: "bool" },
+      { name: "isMember", type: "bool", internalType: "bool" },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "renounceOwnership",
+    inputs: [],
+    outputs: [],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "setupDistrubuteNum",
+    inputs: [{ name: "num", type: "uint8", internalType: "uint8" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "textData",
+    inputs: [{ name: "", type: "bytes32", internalType: "bytes32" }],
+    outputs: [
+      { name: "owner", type: "address", internalType: "address" },
+      { name: "uploadTime", type: "uint256", internalType: "uint256" },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "thumbsUp",
+    inputs: [{ name: "textHex", type: "bytes32", internalType: "bytes32" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "transferOwnership",
+    inputs: [{ name: "newOwner", type: "address", internalType: "address" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "event",
+    name: "AddArticle_",
+    inputs: [
+      { name: "user", type: "address", indexed: true, internalType: "address" },
       {
-        "name": "_to",
-        "type": "address"
+        name: "textHex",
+        type: "bytes32",
+        indexed: false,
+        internalType: "bytes32",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "DistributeFrag",
+    inputs: [
+      { name: "user", type: "address", indexed: true, internalType: "address" },
+      { name: "num", type: "uint8", indexed: false, internalType: "uint8" },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "OwnershipTransferred",
+    inputs: [
+      {
+        name: "previousOwner",
+        type: "address",
+        indexed: true,
+        internalType: "address",
       },
       {
-        "name": "_tokenId",
-        "type": "uint256"
-      }
+        name: "newOwner",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
     ],
-    "name": "approve",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
+    anonymous: false,
   },
   {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_zombieId",
-        "type": "uint256"
-      }
+    type: "event",
+    name: "RechargeMember",
+    inputs: [
+      { name: "user", type: "address", indexed: true, internalType: "address" },
     ],
-    "name": "levelUp",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
+    anonymous: false,
   },
   {
-    "constant": false,
-    "inputs": [
+    type: "event",
+    name: "ThumbUp_",
+    inputs: [
+      { name: "user", type: "address", indexed: true, internalType: "address" },
       {
-        "name": "_zombieId",
-        "type": "uint256"
+        name: "writer",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "Transform",
+    inputs: [
+      {
+        name: "sender",
+        type: "address",
+        indexed: true,
+        internalType: "address",
       },
       {
-        "name": "_kittyId",
-        "type": "uint256"
-      }
-    ],
-    "name": "feedOnKitty",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "zombies",
-    "outputs": [
-      {
-        "name": "name",
-        "type": "string"
+        name: "receiver",
+        type: "address",
+        indexed: true,
+        internalType: "address",
       },
       {
-        "name": "dna",
-        "type": "uint256"
+        name: "value",
+        type: "uint256",
+        indexed: false,
+        internalType: "uint256",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "UserLoggedIn",
+    inputs: [
+      { name: "user", type: "address", indexed: true, internalType: "address" },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "UserRegistered",
+    inputs: [
+      { name: "user", type: "address", indexed: true, internalType: "address" },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "fallbackCalled",
+    inputs: [
+      {
+        name: "Sender",
+        type: "address",
+        indexed: false,
+        internalType: "address",
       },
       {
-        "name": "level",
-        "type": "uint32"
+        name: "Value",
+        type: "uint256",
+        indexed: false,
+        internalType: "uint256",
       },
-      {
-        "name": "readyTime",
-        "type": "uint32"
-      },
-      {
-        "name": "winCount",
-        "type": "uint16"
-      },
-      {
-        "name": "lossCount",
-        "type": "uint16"
-      }
+      { name: "Data", type: "bytes", indexed: false, internalType: "bytes" },
     ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
+    anonymous: false,
   },
   {
-    "constant": false,
-    "inputs": [],
-    "name": "withdraw",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
+    type: "event",
+    name: "setUpDistributeNum",
+    inputs: [
+      { name: "num", type: "uint8", indexed: false, internalType: "uint8" },
+    ],
+    anonymous: false,
   },
   {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "_owner",
-        "type": "address"
-      }
+    type: "error",
+    name: "ArticleAlreadyThumbup",
+    inputs: [
+      { name: "user", type: "address", internalType: "address" },
+      { name: "textHex", type: "bytes32", internalType: "bytes32" },
     ],
-    "name": "getZombiesByOwner",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
+  },
+  { type: "error", name: "CanNotThumbupSelf", inputs: [] },
+  { type: "error", name: "NoArticleInfo", inputs: [] },
+  { type: "error", name: "NoEnoughFrog", inputs: [] },
+  {
+    type: "error",
+    name: "OwnableInvalidOwner",
+    inputs: [{ name: "owner", type: "address", internalType: "address" }],
   },
   {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "zombieToOwner",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
+    type: "error",
+    name: "OwnableUnauthorizedAccount",
+    inputs: [{ name: "account", type: "address", internalType: "address" }],
   },
   {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_address",
-        "type": "address"
-      }
-    ],
-    "name": "setKittyContractAddress",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
+    type: "error",
+    name: "RepeatRegisted",
+    inputs: [{ name: "user", type: "address", internalType: "address" }],
   },
   {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_zombieId",
-        "type": "uint256"
-      },
-      {
-        "name": "_newDna",
-        "type": "uint256"
-      }
-    ],
-    "name": "changeDna",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
+    type: "error",
+    name: "RepeatUpload",
+    inputs: [{ name: "textHex", type: "bytes32", internalType: "bytes32" }],
   },
+  { type: "error", name: "RewardFailed", inputs: [] },
   {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "ownerOf",
-    "outputs": [
-      {
-        "name": "_owner",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
+    type: "error",
+    name: "UsrNotRegisted",
+    inputs: [{ name: "user", type: "address", internalType: "address" }],
   },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "_owner",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOf",
-    "outputs": [
-      {
-        "name": "_balance",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_name",
-        "type": "string"
-      }
-    ],
-    "name": "createRandomZombie",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_to",
-        "type": "address"
-      },
-      {
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "transfer",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getAllZombies",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "takeOwnership",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_zombieId",
-        "type": "uint256"
-      },
-      {
-        "name": "_newName",
-        "type": "string"
-      }
-    ],
-    "name": "changeName",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_fee",
-        "type": "uint256"
-      }
-    ],
-    "name": "setLevelUpFee",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_zombieId",
-        "type": "uint256"
-      },
-      {
-        "name": "_targetId",
-        "type": "uint256"
-      }
-    ],
-    "name": "attack",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "_from",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "name": "_to",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "Transfer",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "_owner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "name": "_approved",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "Approval",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "attackResult",
-        "type": "bool"
-      },
-      {
-        "indexed": false,
-        "name": "winCount",
-        "type": "uint16"
-      },
-      {
-        "indexed": false,
-        "name": "lossCount",
-        "type": "uint16"
-      }
-    ],
-    "name": "AttackResult",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "zombieId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "name": "dna",
-        "type": "uint256"
-      }
-    ],
-    "name": "NewZombie",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "previousOwner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnershipTransferred",
-    "type": "event"
-  }
-]
+];

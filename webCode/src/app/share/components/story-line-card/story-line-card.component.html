@@ -1,21 +1,18 @@
 <section class="bg-white pa-lg">
   <div>
     <strong>{{line?.stitle}}</strong>
-    <span class="page-span ml-md">更新中·206章</span>
+    <span class="page-span ml-md">{{line?.isend? '已完结':'更新中'}}·{{line?.pageNum || 0}}章</span>
   </div>
 
   <div class="intro-ellipsis my-md" style="color: #666;">
-    {{line?.remarks || "这个作者什么都没留下"}}
+    {{line?.remarks}}
   </div>
   <div class="footer">
     <span>协作者：</span>
-
-    <svg width="24" height="24" data-jdenticon-value="sdgrerygtr"></svg>
-    <svg width="24" height="24" data-jdenticon-value="32534tgrthytyrh"></svg>
-    <svg width="24" height="24" data-jdenticon-value="fhtrrtjh43534"></svg>
-    <label for="">+2</label>
+    <svg *ngFor="let item of line?.authorArr" title="{{item}}" width="24" height="24" [data-jdenticon-value]="item"></svg>
+    <label *ngIf="line?.otherLength" for="">+{{line?.otherLength}}</label>
     <span class="mr-xs" style="margin-left: 30px;position: relative;top: 2px;" nz-icon nzType="clock-circle" nzTheme="outline"></span>
-    <span>2024-06-16 16:45:08</span>
+    <span>{{line?.updateTime}}</span>
 
   </div>
 

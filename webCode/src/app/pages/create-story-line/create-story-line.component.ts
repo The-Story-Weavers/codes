@@ -69,6 +69,6 @@ export class CreateStoryLineComponent {
   }
 
   return() {
-    this.router.navigate(['/index/home'])
+    this.router.navigate(['/index/story-detail'],{ queryParams: { id: this.storyId }});
   }
 }

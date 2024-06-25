@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {stringify} from 'qs'
 import { whiteList } from './commonConfig';
 
 
@@ -50,56 +49,6 @@ export class HttpService {
         }
         this.httpClient.post(url, params, { headers: header })
           .toPromise().then((res) => {
-            if (this.whiteList.filter(e => url.indexOf(e) !== -1).length > 0) {
-              resolve(res);
-            }
-            if (res['code'] && res['code'] !== 200) {
-              reject('接口报错');
-            } else {
-              resolve(res);
-            }
-          });
-      });
-    }
-    if (type === 'form') {
-      let formparams =stringify(params)
-      return new Promise((resolve, reject) => {
-        let header = new HttpHeaders();
-        header =  header.set('Content-Type', 'application/x-www-form-urlencoded');
-        if(sessionStorage.getItem('token')){
-          header =  header.set('token', sessionStorage.getItem('token'))
-        }
-        this.httpClient.post(url, formparams, { headers: header})
-          .toPromise().catch((e)=>{
-            if(e.status==504 || e.status==401){            //超时后自动登出登录页
-              sessionStorage.clear()
-              this.router.navigate(['/login']);
-            }
-          }).then((res) => {
-            if (this.whiteList.filter(e => url.indexOf(e) !== -1).length > 0) {
-              resolve(res);
-            }
-            if (res['code'] && res['code'] !== 200) {
-              reject('接口报错');
-            } else {
-              resolve(res);
-            }
-          });
-      });
-    }
-    if (type === 'formData') {
-      return new Promise((resolve, reject) => {
-        let header = new HttpHeaders();
-        if(sessionStorage.getItem('token')) {
-          header =  header.set('token', sessionStorage.getItem('token'))
-        }
-        this.httpClient.post(url, params, { headers: header })
-          .toPromise().catch((e)=>{
-            if(e.status==504 || e.status==401){            //超时后自动登出登录页
-              sessionStorage.clear()
-              this.router.navigate(['/login']);
-            }
-          }).then((res) => {
             if (this.whiteList.filter(e => url.indexOf(e) !== -1).length > 0) {
               resolve(res);
             }

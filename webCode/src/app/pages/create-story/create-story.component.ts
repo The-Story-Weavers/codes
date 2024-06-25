@@ -75,11 +75,11 @@ export class CreateStoryComponent {
     }
     const values = this.validateForm.getRawValue();
     if(!values.name) {
-      this.toolsService.tip("warning","请输入系列名称")
+      this.toolsService.tip("warning","请输入名称")
       return
     }
     if(!values.content) {
-      this.toolsService.tip("warning","请输入系列简介")
+      this.toolsService.tip("warning","请输入简介")
       return
     }
     if(!this.tags.length) {
