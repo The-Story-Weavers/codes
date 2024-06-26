@@ -18,7 +18,7 @@ contract NovelPlatform is Ownable {
     event RechargeMember(address indexed user); // 充值会员
     event AddArticle_(address indexed user, bytes32 textHex); // 上传文字
     event DistributeFrag(address indexed user, uint8 num); // 领币
-    event ThumbUp_(address indexed user, address indexed writer); // 投币
+    event ThumbUp_(address indexed user, bytes32 writer); // 投币
     event setUpDistributeNum(uint8 num); // 修改每日领币数量
     event Transform(
         address indexed sender,
@@ -39,12 +39,15 @@ contract NovelPlatform is Ownable {
     //define text data
     struct Text {
         address owner;
+        int id;
         uint256 uploadTime;
+        uint256 frogNum;
     }
 
     uint8 public DistributeFragNum; // Number of frogs distributed each time
     mapping(address => User) public registeredUsers; // save user data
     mapping(bytes32 => Text) public textData; // save text data
+    mapping(int => bytes32) public textDataById; // save text data
 
     constructor() Ownable(msg.sender) {
         DistributeFragNum = 2;
@@ -99,7 +102,7 @@ contract NovelPlatform is Ownable {
     }
 
     // 上传文字
-    function addArticle(bytes32 textHex) external returns (bool) {
+    function addArticle(int textId, bytes32 textHex) external returns (bool) {
         if (!registeredUsers[msg.sender].isRegistered) {
             revert UsrNotRegisted(msg.sender);
         }
@@ -108,14 +111,17 @@ contract NovelPlatform is Ownable {
         }
         textData[textHex].owner = msg.sender;
         textData[textHex].uploadTime = block.timestamp;
+        textData[textHex].id = textId;
+        textDataById[textId] = textHex;
         registeredUsers[msg.sender].textHex.push(textHex);
         emit AddArticle_(msg.sender, textHex);
         return true;
     }
 
-    // 投币
-    function thumbsUp(bytes32 textHex) external {
+    // 点赞
+    function thumbsUp(int id) external {
         User storage user = registeredUsers[msg.sender];
+        bytes32 textHex = textDataById[id];
         if (!user.isRegistered) {
             revert UsrNotRegisted(msg.sender);
         }
@@ -134,9 +140,9 @@ contract NovelPlatform is Ownable {
             revert CanNotThumbupSelf();
         }
         user.frog -= 1;
-        registeredUsers[writer].frog += 1;
+        textData[textHex].frogNum += 1;
         user.thumbupHistory[textHex] = true;
-        emit ThumbUp_(msg.sender, writer);
+        emit ThumbUp_(msg.sender, textHex);
     }
 
     // 打赏
