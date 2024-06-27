@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.story.weavers.mapper.PortfolioMapper" >
+    
+    <select id="findAllPort" resultType="com.story.weavers.entity.Portfolio">
+        select * from portfolio p
+        <where>
+            <if test="null != searchName">
+                and (p.ptitle like '%${searchName}%' or p.labels like '%${searchName}%')
+            </if>
+            <if test="null != author">
+                and (p.creator = #{author} or 
+                p.id in (select s.pid from story s join chapter c on c.sid = s.sid where author = #{author}))
+            </if>
+        </where>
+        
+    </select>
+    <select id="findPortDetailByPid" resultMap="portAndStories">
+        select * from portfolio p left join  story s on p.id = s.pid where p.id = #{pid}
+    </select>
+    <resultMap id="portAndStories" type="com.story.weavers.entity.PortDetailVo">
+        <id property="id" column="id"/>
+        <result property="labels" column="labels"/>
+        <result property="creator" column="creator"/>
+        <result property="introduce" column="introduce"/>
+        <result property="ptitle" column="ptitle"/>
+        <result property="bgcolor" column="bgcolor"/>
+        <result property="createTime" column="create_time"/>
+        <collection property="stories" ofType="com.story.weavers.entity.Story">
+            <id property="sid" column="sid"/>
+            <result property="screator" column="screator"/>
+            <result property="sintroduce" column="sintroduce"/>
+            <result property="stitle" column="stitle"/>
+            <result property="sbgcolor" column="sbgcolor"/>
+            <result property="screateTime" column="screate_time"/>
+        </collection>
+    </resultMap>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.story.weavers.mapper.StoryMapper" >
+    <select id="findAllStory" resultMap="storyAndChapters">
+        select * from story s left join chapter c on c.sid = s.sid where 1=1
+        <if test="null != stitle">
+            and s.stitle like '%${stitle}%'
+        </if>
+        <if test="null != pid">
+            and s.pid = #{pid}
+        </if>
+        <if test="null != author">
+            and s.screator = #{author} or c.author = #{author}
+        </if>
+    </select>
+    <resultMap id="storyAndChapters" type="com.story.weavers.entity.CSVO">
+        <id property="sid" column="sid"/>
+        <result property="stitle" column="stitle"/>
+        <result property="remarks" column="remarks"/>
+        <result property="screator" column="screator"/>
+        <result property="isend" column="isend"/>
+        <result property="screateTime" column="screate_time"/>
+        <result property="updateTime" column="update_time"/>
+        <collection property="chapters" ofType="com.story.weavers.entity.Chapter">
+            <id property="cid" column="cid"/>
+            <result property="author" column="author"/>
+            <result property="ccreateTime" column="ccreate_time"/>
+        </collection>
+    </resultMap>
+    
+</mapper>

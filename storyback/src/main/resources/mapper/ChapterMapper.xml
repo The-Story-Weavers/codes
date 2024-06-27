@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.story.weavers.mapper.ChapterMapper" >
+    <select id="getCtitleBySid" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT ctitle,cid,author FROM chapter WHERE sid = #{sid}
+    </select>
+    <select id="getCAllBySid" resultType="com.story.weavers.entity.Chapter">
+        SELECT * FROM chapter WHERE sid = #{sid}
+    </select>
+    <select id="findCSVOByAuthor" resultMap="chapterWithStory">
+        SELECT * FROM story s LEFT JOIN chapter c ON s.id = c.sid where c.author = #{author}
+    </select>
+    <select id="getChapterByCid" resultType="com.story.weavers.entity.Chapter">
+        select * from chapter WHERE cid = #{cid}
+    </select>
+
+    <resultMap id="chapterWithStory" type="com.story.weavers.entity.CSVO">
+        <id property="id" column="id"/>
+        <collection property="chapters" ofType="com.story.weavers.entity.Chapter">
+            <id property="id" column="id"/>
+            <result property="ctitle" column="ctitle"/>
+        </collection>
+    </resultMap>
+</mapper>

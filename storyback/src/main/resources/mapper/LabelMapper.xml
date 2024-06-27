@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.story.weavers.mapper.LabelMapper" >
+    <insert id="savePortLabel">
+        insert into portfolio_label (pid,lid) values (#{pid},#{lid})
+    </insert>
+    <select id="getLabelByName" resultType="java.lang.String">
+        select name from label where name like '%${name}%'
+    </select>
+    <select id="getLabelIdByName" resultType="java.lang.Integer">
+        select distinct id from label where name = #{name}
+    </select>
+    <select id="getLabelIdsByLike" resultType="java.lang.Integer">
+        select id from label where name like '%${name}%'
+    </select>
+</mapper>
