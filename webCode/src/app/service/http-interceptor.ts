@@ -24,9 +24,7 @@ export const HttpInterceptor: HttpInterceptorFn =
           }
         },
         error: error => {
-
           toolsService.tip('error', '系统错误');
-          
         },
       })
     );

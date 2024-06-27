@@ -22,16 +22,19 @@ export class HomeComponent implements OnInit {
   key = "";
 
   constructor(private router: Router,private http: HttpService) {
+    this.page.size = 12
   }
   ngOnInit() {
     this.searchStory()
   }
 
   searchStory(showResultNum?) {
-    this.http.post("/portfolio/findAllPortfolio",{
-      pageNum: 1,
-      pageSize: 16,
-      searchName: this.key
+    const address = sessionStorage.getItem('walletAddress')
+    this.http.post("/weavers/portfolio/findAllPortfolio",{
+      pageNum: this.page.page,
+      pageSize: this.page.size,
+      searchName: this.key,
+      author:this.myChecked&&!showResultNum?address:null
     }).then(res=>{
       if(res.code == 200) {
         this.page.total =res.data.total;
@@ -45,6 +48,14 @@ export class HomeComponent implements OnInit {
       }  
     })
    
+  }
+  keyChange() {
+    this.page.page = 1
+    this.searchStory(true)
+  }
+  checkedChange() {
+    this.page.page = 1
+    this.searchStory()
   }
   handleCreate() {
     this.router.navigate(['/index/create-story']);
@@ -60,7 +71,8 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/index/story-detail'],{ queryParams: { id: story.id }});
   }
 
-  nzPageChange() {
+  nzPageChange(e) {
+    this.page.page = e
     this.searchStory()
   }
   ngOnDestroy() {}

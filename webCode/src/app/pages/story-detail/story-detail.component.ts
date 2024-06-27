@@ -18,14 +18,17 @@ export class StoryDetailComponent {
   page = new Page();
   story = null;
   keyName = "";
-  pid = null
+  pid = null;
+  pname = null
 
   constructor(private router: Router,private activatedRoute: ActivatedRoute,private http: HttpService) {
     this.page.size = 12
   }
   ngOnInit() {
     this.pid = this.activatedRoute.snapshot.queryParams["id"];
-    this.http.post("/portfolio/findPortDetail",{
+    this.pname = this.activatedRoute.snapshot.queryParams["name"];
+    // this.router.navigate(['/index/continue-story'])
+    this.http.post("/weavers/portfolio/findPortDetail",{
       pid: this.pid,
     }).then(res=>{
       if(res.code == 200) {
@@ -42,12 +45,14 @@ export class StoryDetailComponent {
     this.searchLine();
   }
 
-  searchLine() {
-    this.http.post("/story/findAllStory",{
+  searchLine(isReset = false) {
+    const address = sessionStorage.getItem('walletAddress')
+    this.http.post("/weavers/story/findAllStory",{
       pid: this.pid,
       pageNum: this.page.page,
       pageSize: this.page.size,
-      stitle:this.keyName
+      stitle:this.keyName,
+      author:this.myChecked?address:null
     }).then(res=>{
       if(res.code == 200) {
         this.lineList = res.data.records;
@@ -69,12 +74,14 @@ export class StoryDetailComponent {
     })
   }
   toDetail(line) {
-    this.router.navigate(["/index/read"],{ queryParams: { id: line.sid,name:line.stitle }})
+    console.log(line);
+    
+    sessionStorage.setItem("line",JSON.stringify(line))
+    this.router.navigate(["/index/read"],{ queryParams: { id: line.sid}})
   }
-  nzPageChange() {
+  nzPageChange(e) {
+    this.page.page = e
     this.searchLine()
-
-
   }
 
   handleSave() {

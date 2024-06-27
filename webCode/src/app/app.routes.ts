@@ -36,5 +36,5 @@ export const routes: Routes = [
       }
     ]
   },
-  { path: '**', redirectTo: '/index/home'}
+  { path: '**', redirectTo: '/index/home',pathMatch: 'full'}
 ];

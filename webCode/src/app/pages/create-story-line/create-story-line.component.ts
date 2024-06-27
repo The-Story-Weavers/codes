@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ContractService } from 'src/app/service/contract.service';
 import { HttpService } from 'src/app/service/http.service';
 import { ToolsService } from 'src/app/service/tools.service';
 import { ShareModule } from 'src/app/share/share.module';
@@ -24,7 +25,8 @@ export class CreateStoryLineComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private http: HttpService,
-    private toolsService: ToolsService
+    private toolsService: ToolsService,
+    private contract: ContractService
   ) {
     this.validateForm = this.fb.group({
       name: [''],
@@ -44,13 +46,30 @@ export class CreateStoryLineComponent {
   }
 
   handleSave() {
+    this.contract.loading$.next(true);
     const user = sessionStorage.getItem('walletAddress')
     if(!user) {
       this.toolsService.tip("warning","请连接钱包")
       return
     }
     const values = this.validateForm.getRawValue();
-    this.http.post('/story/saveStory',{
+    if(!values.name) {
+      this.toolsService.tip("warning","请输入名称")
+      return
+    }
+    if(!values.remarks) {
+      this.toolsService.tip("warning","请输入简介")
+      return
+    }
+    if(!values.pageName) {
+      this.toolsService.tip("warning","请输入章节标题")
+      return
+    }
+    if(!values.content) {
+      this.toolsService.tip("warning","请输入章节内容")
+      return
+    }
+    const params = {
       stitle: values.name,
       remarks: values.remarks,
       screator: user,
@@ -59,8 +78,21 @@ export class CreateStoryLineComponent {
       ctitle: values.pageName,
       content: values.content,
       author: user
-    }).then(res=>{
+    }
+    this.http.post('/weavers/story/saveStory',params).then(res=>{
       if(res.code == 200) {
+        this.contract.addPage(res.data.cid, values.content).then((res2) => {
+          this.contract.loading$.next(false);
+          const line = {
+            stitle:params.stitle,
+            isend:params.isend,
+            sid: res.data.sid
+          }
+          sessionStorage.setItem("line",JSON.stringify(line))
+          this.router.navigate(["/index/read"], {
+            queryParams: { id: res.data.sid },
+          });
+        });
       
       }
     })

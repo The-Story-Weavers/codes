@@ -5,6 +5,7 @@ import { ToolsService } from 'src/app/service/tools.service';
 import { ShareModule } from 'src/app/share/share.module';
 import { NzColorPickerComponent } from 'ng-zorro-antd/color-picker'
 import { HttpService } from 'src/app/service/http.service';
+import { ContractService } from 'src/app/service/contract.service';
 
 @Component({
   selector: 'app-create-story',
@@ -22,7 +23,8 @@ export class CreateStoryComponent {
     private fb: FormBuilder,
     private router: Router,
     private toolsService: ToolsService,
-    private http: HttpService
+    private http: HttpService,
+    private contract: ContractService
   ) {
 
     this.validateForm = this.fb.group({
@@ -87,7 +89,7 @@ export class CreateStoryComponent {
       return
     }
 
-    this.http.post('/portfolio/savePortfolio',{
+    this.http.post('/weavers/portfolio/savePortfolio',{
       ptitle: values.name,
       introduce: values.content,
       bgcolor: values.color,

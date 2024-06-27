@@ -6,7 +6,7 @@
     <nz-breadcrumb-item>
       <a (click)="toTheme()">{{themeName}}</a>
     </nz-breadcrumb-item>
-    <nz-breadcrumb-item>{{stitle}}</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{story?.stitle}}</nz-breadcrumb-item>
   </nz-breadcrumb>
 </div>
 <section [hidden]="!catalogShow" class="bg-white" style="margin: 24px 18% 40px 18%;">
@@ -18,7 +18,7 @@
     </div>
     <div class="mt-lg mb-md flex justify-between">
       <div>
-        更新中<span class="page-span ml-md">更新至第{{catalog.length}}章</span>
+        {{story?.isend? '已完结':'更新中'}}<span class="page-span ml-md">更新至第{{catalog.length}}章</span>
       </div>
       <label class="mt-sm" nz-checkbox [(ngModel)]="showMyPage" (ngModelChange)="getMyPage()">我发布的</label>
 
@@ -56,8 +56,8 @@
   </div>
   <div class="text-right" style="margin-top: 60px;">
 
-    <span class="btn-primary" (click)="continue()">续写故事</span>
-    <span class="ml-md btn-default"><img class="mr-xs" src="/assets/images/frog.png" alt="" srcset="">373</span>
+    <span *ngIf="catalog.length==curPage+1" class="btn-primary" (click)="continue()">续写故事</span>
+    <!-- <span class="ml-md btn-default gray"><img class="mr-xs" src="/assets/images/frog.png" alt="" srcset="">1</span> -->
     <!-- <span class="ml-md btn-default gray"></span> -->
   </div>
 

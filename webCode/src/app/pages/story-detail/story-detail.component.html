@@ -23,6 +23,8 @@
           <span style="font-size: 20px;">{{story?.viewnum || 0}}</span><label class="ml-xs" style="color: #999;font-size: 12px;" for="">浏览</label>
           <span class="ml-md" style="font-size: 20px;">{{story?.stories?.length}}</span><label class="ml-xs" style="color: #999;font-size: 12px;"
             for="">故事线</label>
+
+            <span class='btn-primary ml-lg' style="margin-bottom: 120px;" (click)="handleSave()">创建故事</span>
         </div>
       </div>
     </div>
@@ -39,9 +41,9 @@
       <span class="filter-span">最新作品</span>
     </div>
     <div>
-      <label class="mr-lg" nz-checkbox [(ngModel)]="myChecked">我参与的</label>
+      <label class="mr-lg" nz-checkbox [(ngModel)]="myChecked" (ngModelChange)="searchLine(true)">我参与的</label>
       <nz-input-group class="search-input" nzSearch [nzSuffix]="suffixIcon">
-        <input type="text" nz-input placeholder="故事线名称" [(ngModel)]="keyName" (keyup.enter)="searchLine()" />
+        <input type="text" nz-input placeholder="故事线名称" [(ngModel)]="keyName" (keyup.enter)="searchLine(true)" />
       </nz-input-group>
       <ng-template #suffixIcon>
         <span nz-icon nzType="search"></span>
@@ -55,12 +57,12 @@
   </div>
   <div class="flex flex-column flex-center full-height" *ngIf="!lineList.length">
     <nz-empty style="margin-top: 120px;" nzNotFoundContent=""></nz-empty>
-    <span class='btn-primary mt-lg' style="margin-bottom: 120px;" (click)="handleSave()">去创建故事</span>
+    
   </div>
 
   <!-- 分页器开始 -->
   <div *ngIf="lineList.length" class="flex justify-center" style="margin-top: 32px;margin-bottom: 60px;">
-    <nz-pagination class="mr-sm" (nzPageIndexChange)="nzPageChange()" [nzTotal]="page.total" [(nzPageIndex)]="page.page"
+    <nz-pagination class="mr-sm" (nzPageIndexChange)="nzPageChange($event)" [nzTotal]="page.total" [(nzPageIndex)]="page.page"
       [(nzPageSize)]="page.size" nzShowQuickJumper>
     </nz-pagination>
   </div>

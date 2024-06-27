@@ -12,85 +12,84 @@ import { NgxJdenticonModule } from 'ngx-jdenticon';
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [ShareModule, RouterOutlet,NgxJdenticonModule],
+  imports: [ShareModule, RouterOutlet, NgxJdenticonModule],
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.less'],
+  styleUrls: ['./layout.component.less']
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-  @ViewChild('myElement', {static: true}) myElement: ElementRef;
+  @ViewChild('myElement', { static: true }) myElement: ElementRef;
   private scrollHandler: any;
-  private subscription: Subscription;
-  menuList: Array<any>;
-  activeRoute = []; //导航数组，用于页面渲染导航目录区域
-  username = 'Admin';
-
+  private loadingSub: Subscription;
   routerSub: any;
   curUrl: string = '';
   isConnected = false;
   walletAddress?: string;
-  userData = null;
   isSticky = false;
-  breadcrumbLevel = 1
+  loading = false;
+  
 
-  constructor(private router: Router, private commonService: CommonService, private httpService: HttpService,private contractService: ContractService) {
-    if(sessionStorage.getItem('walletAddress')){
-      this.connectWallet()
+  constructor(private router: Router, private contractService: ContractService) {
+    if (sessionStorage.getItem('walletAddress')) {
+      this.connectWallet();
     }
     this.routerSub = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((res: any) => {
-      this.curUrl = res.url;
-      if(this.curUrl == '/index/home') {
-        this.isSticky = false
+      this.curUrl = res.urlAfterRedirects;
+      if (this.curUrl == '/index/home') {
+        this.isSticky = false;
       } else {
-        this.isSticky = true
+        this.isSticky = true;
       }
     });
+    this.loadingSub = this.contractService.loading$.subscribe(res=>{
+      this.loading = res
+    })
   }
   ngOnInit(): void {
     this.scrollHandler = () => {
-      if(this.curUrl !== '/index/home') {
-        return
+      if (this.curUrl !== '/index/home') {
+        return;
       }
       // 这里处理滚动事件
       const height = this.myElement.nativeElement.scrollTop;
-      console.log(height);
-      
-      if(height>50) {
-        this.isSticky = true
+      if (height > 50) {
+        this.isSticky = true;
       } else {
-        this.isSticky = false
+        this.isSticky = false;
       }
     };
-    
-    window.addEventListener('scroll', this.scrollHandler,true);
+    window.addEventListener('scroll', this.scrollHandler, true);
   }
 
   toHome() {
     this.router.navigate(['/index/home']);
   }
 
-
   connectWallet() {
-     this.contractService.connectWallet().then((res:JsonRpcSigner)=>{
-      console.log(res);
-      
-      this.walletAddress = res?.address;
-      sessionStorage.setItem("walletAddress",this.walletAddress)
-      
-     }).catch(()=>{
-       console.error("没有识别到钱包")
-     })
-  
-    
+    this.loading = true
+    this.contractService.connectWallet().then(async (res: JsonRpcSigner) => {
+     console.log(res?.address);
+     
+      // 注册登录
+      const info = await this.contractService.registerAndLogin()
+      if(info?.disconnect) {
+        sessionStorage.removeItem('walletAddress');
+        this.walletAddress = ""
+      } else {
+        this.walletAddress = res?.address;
+        sessionStorage.setItem('walletAddress', this.walletAddress);
+      }
+      this.loading = false
+    });
   }
   toSign() {
-    this.contractService.sign()
+    this.contractService.sign();
   }
   aa() {
-    this.contractService.connectNetwork()
+    this.contractService.connectNetwork();
   }
 
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
-    this.subscription?.unsubscribe();
+    this.loadingSub?.unsubscribe();
   }
 }

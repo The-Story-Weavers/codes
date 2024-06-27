@@ -9,14 +9,14 @@
 
 
     <span *ngIf="!walletAddress" class="button-span" (click)="connectWallet()">
-      连接钱包
+      注册/登录
     </span>
 
     <!-- <button *ngIf="!walletAddress" nz-button nzType="primary" (click)="connectWallet()">Connect Wallet</button> -->
     <div class="flex align-center" *ngIf="walletAddress">
       <svg class="mr-sm" width="35" height="35" [data-jdenticon-value]="walletAddress"></svg>
-      <div title="{{walletAddress}}" class="font-display-3 text-white mr-lg common-ellipsis"
-        style="width: 160px;">{{walletAddress}}！</div>
+      <div title="{{walletAddress}}" class="font-display-3 text-white mr-lg common-ellipsis" style="width: 160px;">
+        {{walletAddress}}！</div>
     </div>
 
   </div>
@@ -30,4 +30,9 @@
     </div>
   </div>
 
+
 </section>
+
+<nz-spin *ngIf="loading" nzSize="large" nzTip="小主,我正在努力加载中,请稍等片刻~">
+
+</nz-spin>

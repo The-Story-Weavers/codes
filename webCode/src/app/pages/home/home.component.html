@@ -2,12 +2,12 @@
   <div class="flex flex-column align-center top">
     <img src="/assets/images/home-logo.png" alt="" srcset="" style="margin-top: 130px;margin-bottom: 40px;">
     <div *ngIf="!searching">
-      <span class="search-btn mr-lg" (click)="handleCreate()">创建故事</span>
+      <span class="search-btn mr-lg" (click)="handleCreate()">创建主题</span>
       <span class="create-btn" (click)="searching = true">寻找故事</span>
     </div>
     <nz-input-group class="search-input" *ngIf="searching" nzSearch [nzSuffix]="suffixIcon" nzSize="large"
       style="width: 600px;">
-      <input type="text" nz-input placeholder="搜标签 故事合集" [(ngModel)]="key" (keyup.enter)="searchStory(true)" />
+      <input type="text" nz-input placeholder="搜标签 故事合集" [(ngModel)]="key" (keyup.enter)="keyChange()" />
     </nz-input-group>
     <ng-template #suffixIcon>
       <span nz-icon nzType="search"></span>
@@ -21,7 +21,7 @@
         <span class="filter-span">最多支线</span>
       </div>
       <div>
-        <label nz-checkbox [(ngModel)]="myChecked">我参与的</label>
+        <label nz-checkbox [(ngModel)]="myChecked" (ngModelChange)="checkedChange()">我参与的</label>
       </div>
 
     </div>
@@ -43,7 +43,7 @@
 
     <!-- 分页器开始 -->
     <div *ngIf="storyList.length" class="flex justify-center" style="margin-top: 56px;margin-bottom: 60px;">
-      <nz-pagination class="mr-sm" (nzPageIndexChange)="nzPageChange()" [nzTotal]="page.total" [(nzPageIndex)]="page.page"
+      <nz-pagination class="mr-sm" (nzPageIndexChange)="nzPageChange($event)" [nzTotal]="page.total" [(nzPageIndex)]="page.page"
         [(nzPageSize)]="page.size" nzShowQuickJumper>
       </nz-pagination>
     </div>
