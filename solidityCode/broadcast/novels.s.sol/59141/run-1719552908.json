@@ -1,7 +1,7 @@
 {
   "transactions": [
     {
-      "hash": null,
+      "hash": "0x017b49ed55e530a71c60438f1b2a195bc84c6ded4a53f68cd96a2ae56e195577",
       "transactionType": "CREATE",
       "contractName": "NovelPlatform",
       "contractAddress": "0x2410f692c679c40bffc951d667e353c478168850",
@@ -23,7 +23,7 @@
   "libraries": [],
   "pending": [],
   "returns": {},
-  "timestamp": 1719553060,
+  "timestamp": 1719552908,
   "chain": 59141,
   "commit": "02fb1b1"
 }

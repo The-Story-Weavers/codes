@@ -46,7 +46,7 @@ contract NovelPlatform is Ownable {
         uint256 rewordTimes;
         uint256 rewordNum;
     }
-    int256 textId_;
+    int256 textId_ = 1;
     uint8 public DistributeFragNum; // Number of frogs distributed each time
     mapping(address => User) public registeredUsers; // save user data
     mapping(bytes32 => Text) public textData; // save text data
