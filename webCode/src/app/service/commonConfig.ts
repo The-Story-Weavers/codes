@@ -6,178 +6,258 @@ export class Page {
 
 export const tipConfig = {
   nzDuration: 2000,
-  nzPauseOnHover: true
+  nzPauseOnHover: true,
 };
 // 接口过滤白名单 不弹窗，不做任何处理
 export const whiteList = [];
 
 export const ABI = [
-  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
-  { type: 'fallback', stateMutability: 'payable' },
-  { type: 'receive', stateMutability: 'payable' },
-  { type: 'function', name: 'DistributeFragNum', inputs: [], outputs: [{ name: '', type: 'uint8', internalType: 'uint8' }], stateMutability: 'view' },
+  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {
-    type: 'function',
-    name: 'RewardArticle',
-    inputs: [{ name: 'textHex', type: 'bytes32', internalType: 'bytes32' }],
-    outputs: [],
-    stateMutability: 'payable'
-  },
-  {
-    type: 'function',
-    name: 'addArticle',
     inputs: [
-      { name: 'textId', type: 'int256', internalType: 'int256' },
-      { name: 'textHex', type: 'bytes32', internalType: 'bytes32' }
+      { internalType: "address", name: "user", type: "address" },
+      { internalType: "bytes32", name: "textHex", type: "bytes32" },
     ],
-    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
-    stateMutability: 'nonpayable'
+    name: "ArticleAlreadyThumbup",
+    type: "error",
+  },
+  { inputs: [], name: "CanNotThumbupSelf", type: "error" },
+  { inputs: [], name: "NoArticleInfo", type: "error" },
+  { inputs: [], name: "NoEnoughFrog", type: "error" },
+  {
+    inputs: [{ internalType: "address", name: "user", type: "address" }],
+    name: "RepeatRegisted",
+    type: "error",
   },
   {
-    type: 'function',
-    name: 'generateHash',
-    inputs: [{ name: 'input', type: 'string', internalType: 'string' }],
-    outputs: [{ name: '', type: 'bytes32', internalType: 'bytes32' }],
-    stateMutability: 'pure'
+    inputs: [{ internalType: "bytes32", name: "textHex", type: "bytes32" }],
+    name: "RepeatUpload",
+    type: "error",
+  },
+  { inputs: [], name: "RewardFailed", type: "error" },
+  {
+    inputs: [{ internalType: "address", name: "user", type: "address" }],
+    name: "UsrNotRegisted",
+    type: "error",
   },
   {
-    type: 'function',
-    name: 'isUserRegistered',
-    inputs: [{ name: 'user', type: 'address', internalType: 'address' }],
-    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
-    stateMutability: 'view'
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "user", type: "address" },
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "textHex",
+        type: "bytes32",
+      },
+    ],
+    name: "AddArticle_",
+    type: "event",
   },
-  { type: 'function', name: 'loginUser', inputs: [], outputs: [], stateMutability: 'nonpayable' },
-  { type: 'function', name: 'owner', inputs: [], outputs: [{ name: '', type: 'address', internalType: 'address' }], stateMutability: 'view' },
-  { type: 'function', name: 'registerUser', inputs: [], outputs: [], stateMutability: 'nonpayable' },
   {
-    type: 'function',
-    name: 'registeredUsers',
-    inputs: [{ name: '', type: 'address', internalType: 'address' }],
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "user", type: "address" },
+      { indexed: false, internalType: "uint8", name: "num", type: "uint8" },
+    ],
+    name: "DistributeFrag",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "user", type: "address" },
+    ],
+    name: "RechargeMember",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "user", type: "address" },
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "writer",
+        type: "bytes32",
+      },
+    ],
+    name: "ThumbUp_",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "receiver",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "Transform",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "user", type: "address" },
+    ],
+    name: "UserLoggedIn",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "user", type: "address" },
+    ],
+    name: "UserRegistered",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "Sender",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "Value",
+        type: "uint256",
+      },
+      { indexed: false, internalType: "bytes", name: "Data", type: "bytes" },
+    ],
+    name: "fallbackCalled",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: "uint8", name: "num", type: "uint8" },
+    ],
+    name: "setUpDistributeNum",
+    type: "event",
+  },
+  { stateMutability: "payable", type: "fallback" },
+  {
+    inputs: [],
+    name: "DistributeFragNum",
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "textHex", type: "bytes32" }],
+    name: "RewardArticle",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "int256", name: "textId", type: "int256" },
+      { internalType: "bytes32", name: "textHex", type: "bytes32" },
+    ],
+    name: "addArticle",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "string", name: "input", type: "string" }],
+    name: "generateHash",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "user", type: "address" }],
+    name: "isUserRegistered",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "loginUser",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "registerUser",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "registeredUsers",
     outputs: [
-      { name: 'lastLoginTime', type: 'uint256', internalType: 'uint256' },
-      { name: 'frog', type: 'uint256', internalType: 'uint256' },
-      { name: 'isRegistered', type: 'bool', internalType: 'bool' },
-      { name: 'isMember', type: 'bool', internalType: 'bool' }
+      { internalType: "uint256", name: "lastLoginTime", type: "uint256" },
+      { internalType: "uint256", name: "frog", type: "uint256" },
+      { internalType: "bool", name: "isRegistered", type: "bool" },
+      { internalType: "bool", name: "isMember", type: "bool" },
     ],
-    stateMutability: 'view'
+    stateMutability: "view",
+    type: "function",
   },
-  { type: 'function', name: 'renounceOwnership', inputs: [], outputs: [], stateMutability: 'view' },
   {
-    type: 'function',
-    name: 'setupDistrubuteNum',
-    inputs: [{ name: 'num', type: 'uint8', internalType: 'uint8' }],
+    inputs: [{ internalType: "uint8", name: "num", type: "uint8" }],
+    name: "setupDistrubuteNum",
     outputs: [],
-    stateMutability: 'nonpayable'
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    type: 'function',
-    name: 'textData',
-    inputs: [{ name: '', type: 'bytes32', internalType: 'bytes32' }],
+    inputs: [{ internalType: "address", name: "nextOwner", type: "address" }],
+    name: "setupOwner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    name: "textData",
     outputs: [
-      { name: 'owner', type: 'address', internalType: 'address' },
-      { name: 'id', type: 'int256', internalType: 'int256' },
-      { name: 'uploadTime', type: 'uint256', internalType: 'uint256' },
-      { name: 'frogNum', type: 'uint256', internalType: 'uint256' }
+      { internalType: "address", name: "owner", type: "address" },
+      { internalType: "int256", name: "id", type: "int256" },
+      { internalType: "uint256", name: "uploadTime", type: "uint256" },
+      { internalType: "uint256", name: "frogNum", type: "uint256" },
     ],
-    stateMutability: 'view'
+    stateMutability: "view",
+    type: "function",
   },
   {
-    type: 'function',
-    name: 'textDataById',
-    inputs: [{ name: '', type: 'int256', internalType: 'int256' }],
-    outputs: [{ name: '', type: 'bytes32', internalType: 'bytes32' }],
-    stateMutability: 'view'
+    inputs: [{ internalType: "int256", name: "", type: "int256" }],
+    name: "textDataById",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
   },
   {
-    type: 'function',
-    name: 'thumbsUp',
-    inputs: [{ name: 'id', type: 'int256', internalType: 'int256' }],
+    inputs: [{ internalType: "int256", name: "id", type: "int256" }],
+    name: "thumbsUp",
     outputs: [],
-    stateMutability: 'nonpayable'
+    stateMutability: "nonpayable",
+    type: "function",
   },
-  {
-    type: 'function',
-    name: 'transferOwnership',
-    inputs: [{ name: 'newOwner', type: 'address', internalType: 'address' }],
-    outputs: [],
-    stateMutability: 'nonpayable'
-  },
-  {
-    type: 'event',
-    name: 'AddArticle_',
-    inputs: [
-      { name: 'user', type: 'address', indexed: true, internalType: 'address' },
-      { name: 'textHex', type: 'bytes32', indexed: false, internalType: 'bytes32' }
-    ],
-    anonymous: false
-  },
-  {
-    type: 'event',
-    name: 'DistributeFrag',
-    inputs: [
-      { name: 'user', type: 'address', indexed: true, internalType: 'address' },
-      { name: 'num', type: 'uint8', indexed: false, internalType: 'uint8' }
-    ],
-    anonymous: false
-  },
-  {
-    type: 'event',
-    name: 'OwnershipTransferred',
-    inputs: [
-      { name: 'previousOwner', type: 'address', indexed: true, internalType: 'address' },
-      { name: 'newOwner', type: 'address', indexed: true, internalType: 'address' }
-    ],
-    anonymous: false
-  },
-  { type: 'event', name: 'RechargeMember', inputs: [{ name: 'user', type: 'address', indexed: true, internalType: 'address' }], anonymous: false },
-  {
-    type: 'event',
-    name: 'ThumbUp_',
-    inputs: [
-      { name: 'user', type: 'address', indexed: true, internalType: 'address' },
-      { name: 'writer', type: 'bytes32', indexed: false, internalType: 'bytes32' }
-    ],
-    anonymous: false
-  },
-  {
-    type: 'event',
-    name: 'Transform',
-    inputs: [
-      { name: 'sender', type: 'address', indexed: true, internalType: 'address' },
-      { name: 'receiver', type: 'address', indexed: true, internalType: 'address' },
-      { name: 'value', type: 'uint256', indexed: false, internalType: 'uint256' }
-    ],
-    anonymous: false
-  },
-  { type: 'event', name: 'UserLoggedIn', inputs: [{ name: 'user', type: 'address', indexed: true, internalType: 'address' }], anonymous: false },
-  { type: 'event', name: 'UserRegistered', inputs: [{ name: 'user', type: 'address', indexed: true, internalType: 'address' }], anonymous: false },
-  {
-    type: 'event',
-    name: 'fallbackCalled',
-    inputs: [
-      { name: 'Sender', type: 'address', indexed: false, internalType: 'address' },
-      { name: 'Value', type: 'uint256', indexed: false, internalType: 'uint256' },
-      { name: 'Data', type: 'bytes', indexed: false, internalType: 'bytes' }
-    ],
-    anonymous: false
-  },
-  { type: 'event', name: 'setUpDistributeNum', inputs: [{ name: 'num', type: 'uint8', indexed: false, internalType: 'uint8' }], anonymous: false },
-  {
-    type: 'error',
-    name: 'ArticleAlreadyThumbup',
-    inputs: [
-      { name: 'user', type: 'address', internalType: 'address' },
-      { name: 'textHex', type: 'bytes32', internalType: 'bytes32' }
-    ]
-  },
-  { type: 'error', name: 'CanNotThumbupSelf', inputs: [] },
-  { type: 'error', name: 'NoArticleInfo', inputs: [] },
-  { type: 'error', name: 'NoEnoughFrog', inputs: [] },
-  { type: 'error', name: 'OwnableInvalidOwner', inputs: [{ name: 'owner', type: 'address', internalType: 'address' }] },
-  { type: 'error', name: 'OwnableUnauthorizedAccount', inputs: [{ name: 'account', type: 'address', internalType: 'address' }] },
-  { type: 'error', name: 'RepeatRegisted', inputs: [{ name: 'user', type: 'address', internalType: 'address' }] },
-  { type: 'error', name: 'RepeatUpload', inputs: [{ name: 'textHex', type: 'bytes32', internalType: 'bytes32' }] },
-  { type: 'error', name: 'RewardFailed', inputs: [] },
-  { type: 'error', name: 'UsrNotRegisted', inputs: [{ name: 'user', type: 'address', internalType: 'address' }] }
+  { stateMutability: "payable", type: "receive" },
 ];

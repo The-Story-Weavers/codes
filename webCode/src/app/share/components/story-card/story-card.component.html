@@ -1,11 +1,11 @@
 <section class="bg-white pb-md">
     <div class="flex px-lg pt-lg pb-md" >
       <div class="mr-md card-img" [style.background-color]="story?.bgcolor">
-        <img src="/assets/images/logo2.png" alt="" srcset="">
+        <img src="assets/images/logo2.png" alt="" srcset="">
       </div>
-      <div>
+      <div class="flex-1">
         <div title="{{story?.ptitle}}"><strong>{{story?.ptitle}}</strong></div>
-        <div style="margin-top: 6px;margin-bottom: 6px;">发起者：<span class="common-ellipsis" title="{{story?.creator}}">{{story?.creator}}</span></div>
+        <div class="flex" style="margin-top: 6px;margin-bottom: 6px;"><span>发起者：</span><span class="common-ellipsis flex-1" title="{{story?.creator}}">{{story?.creator}}</span></div>
         <div>
             <span *ngFor="let item of story?.labels" class="common-tag mr-xs">{{item}}</span>
             <!-- <span class="common-tag mr-xs">玄幻</span>
@@ -19,7 +19,7 @@
     <div class="divider"></div>
     <div class="footer py-md px-lg">
         <span nz-icon nzType="team" nzTheme="outline"></span><label class="ml-xs" for="">{{story?.authornum || 0}}</label>
-        <img class="ml-md" style="width: 18px;" src="/assets/images/frog.png" alt="" srcset=""><label class="ml-xs" for="">0</label>
+        <!-- <img class="ml-md" style="width: 18px;" src="assets/images/frog.png" alt="" srcset=""><label class="ml-xs" for="">0</label> -->
         <span class="ml-md" nz-icon nzType="eye" nzTheme="outline"></span><label class="ml-xs" for="">{{story?.viewnum || 0}}</label>
         <span class="ml-md" nz-icon nzType="branches" nzTheme="outline"></span><label class="ml-xs" for="">{{story?.storynum || 0}}</label>
     </div>

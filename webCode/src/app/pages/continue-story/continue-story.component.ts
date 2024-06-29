@@ -55,25 +55,37 @@ export class ContinueStoryComponent {
       this.toolsService.tip("warning", "请输入章节内容");
       return;
     }
-    this.http
-      .post("/weavers/chapter/saveChapter", {
-        sid: this.storyId,
-        isend: values.isFinished ? 1 : 0,
-        ctitle: values.pageName,
-        content: values.content,
-        author: user,
-      })
-      .then((res) => {
-        if (res.code == 200) {
-          this.contract.addPage(res.data, values.content).then((res) => {
-            this.contract.loading$.next(false);
-            this.router.navigate(["/index/read"], {
-              queryParams: { id: this.storyId },
+    const id = new Date().getTime();
+    this.contract
+      .addPage(id,values.content)
+      .then((cRes) => {
+        if (cRes) {
+          this.http
+            .post("/weavers/chapter/saveChapter", {
+              sid: this.storyId,
+              isend: values.isFinished ? 1 : 0,
+              ctitle: values.pageName,
+              cid: id,
+              content: values.content,
+              author: user,
+            })
+            .then((res) => {
+              if (res.code == 200) {
+                this.router.navigate(["/index/read"], {
+                  queryParams: { id: this.storyId },
+                });
+              }
+            })
+            .finally(() => {
+              this.contract.loading$.next(false);
             });
-          });
+        } else {
+          this.contract.loading$.next(false);
         }
       })
-     
+      .catch(() => {
+        this.contract.loading$.next(false);
+      });
   }
 
   return() {

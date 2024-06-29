@@ -79,24 +79,32 @@ export class CreateStoryLineComponent {
       content: values.content,
       author: user
     }
-    this.http.post('/weavers/story/saveStory',params).then(res=>{
-      if(res.code == 200) {
-        this.contract.addPage(res.data.cid, values.content).then((res2) => {
-          this.contract.loading$.next(false);
-          const line = {
-            stitle:params.stitle,
-            isend:params.isend,
-            sid: res.data.sid
+    const id = new Date().getTime();
+    this.contract.addPage(id,values.content).then((cRes) => {
+      if(cRes) {
+        this.http.post('/weavers/story/saveStory',{...params,cid:id}).then(res=>{
+          if(res.code == 200) {
+            const line = {
+              stitle:params.stitle,
+              isend:params.isend,
+              sid: res.data.sid
+            }
+            sessionStorage.setItem("line",JSON.stringify(line))
+            this.router.navigate(["/index/read"], {
+              queryParams: { id: res.data.sid },
+            });
+
           }
-          sessionStorage.setItem("line",JSON.stringify(line))
-          this.router.navigate(["/index/read"], {
-            queryParams: { id: res.data.sid },
-          });
-        });
-      
+        }).finally(()=>{
+          this.contract.loading$.next(false);
+        })
+      } else {
+        this.contract.loading$.next(false);
       }
-    })
-    
+
+    }).catch(()=>{
+      this.contract.loading$.next(false);
+    })   
    
   }
 

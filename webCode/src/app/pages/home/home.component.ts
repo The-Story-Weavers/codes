@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonService } from 'src/app/service/common.service';
 import { Page } from 'src/app/service/commonConfig';
 import { HttpService } from 'src/app/service/http.service';
+import { ToolsService } from 'src/app/service/tools.service';
 import { StoryCardComponent } from 'src/app/share/components/story-card/story-card.component';
 import { ShareModule } from 'src/app/share/share.module';
 
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   page = new Page();
   key = "";
 
-  constructor(private router: Router,private http: HttpService) {
+  constructor(private router: Router,private http: HttpService,private toolsService: ToolsService) {
     this.page.size = 12
   }
   ngOnInit() {
@@ -58,6 +59,11 @@ export class HomeComponent implements OnInit {
     this.searchStory()
   }
   handleCreate() {
+    const address = sessionStorage.getItem('walletAddress')
+    if(!address) {
+      this.toolsService.tip('info',"请使用钱包进行注册/登录");
+      return
+    }
     this.router.navigate(['/index/create-story']);
   }
   return() {
@@ -68,6 +74,11 @@ export class HomeComponent implements OnInit {
     // 重新搜索
   }
   toStory(story) {
+    const address = sessionStorage.getItem('walletAddress')
+    if(!address) {
+      this.toolsService.tip('info',"请使用钱包进行注册/登录");
+      return
+    }
     this.router.navigate(['/index/story-detail'],{ queryParams: { id: story.id }});
   }
 
