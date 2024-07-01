@@ -3,7 +3,6 @@ pragma solidity ^0.8.20;
 
 import "../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 
-
 contract NovelPlatform is Ownable {
     error UsrNotRegisted(address user); // 用户未注册
     error RepeatRegisted(address user); // 重复注册
@@ -43,10 +42,8 @@ contract NovelPlatform is Ownable {
         int id;
         uint256 uploadTime;
         uint256 frogNum;
-        uint256 rewordTimes;
-        uint256 rewordNum;
     }
-    int256 textId_ = 1;
+
     uint8 public DistributeFragNum; // Number of frogs distributed each time
     mapping(address => User) public registeredUsers; // save user data
     mapping(bytes32 => Text) public textData; // save text data
@@ -105,7 +102,7 @@ contract NovelPlatform is Ownable {
     }
 
     // 上传文字
-    function addArticle(bytes32 textHex) external returns (int256) {
+    function addArticle(int textId, bytes32 textHex) external returns (bool) {
         if (!registeredUsers[msg.sender].isRegistered) {
             revert UsrNotRegisted(msg.sender);
         }
@@ -114,12 +111,11 @@ contract NovelPlatform is Ownable {
         }
         textData[textHex].owner = msg.sender;
         textData[textHex].uploadTime = block.timestamp;
-        textData[textHex].id = textId_;
-        textDataById[textId_] = textHex;
+        textData[textHex].id = textId;
+        textDataById[textId] = textHex;
         registeredUsers[msg.sender].textHex.push(textHex);
-        textId_ += 1;
         emit AddArticle_(msg.sender, textHex);
-        return textId_-1;
+        return true;
     }
 
     // 点赞
@@ -150,8 +146,7 @@ contract NovelPlatform is Ownable {
     }
 
     // 打赏
-    function RewardArticle(int textId) external payable {
-        bytes32 textHex = textDataById[textId];
+    function RewardArticle(bytes32 textHex) external payable {
         User storage user = registeredUsers[msg.sender];
         address payable writer = payable(textData[textHex].owner);
         if (!user.isRegistered) {
@@ -160,12 +155,10 @@ contract NovelPlatform is Ownable {
         if (textData[textHex].uploadTime == 0) {
             revert NoArticleInfo();
         }
-        (bool success,) = writer.call{value: msg.value}("");
+        bool success = writer.send(msg.value);
         if (!success) {
             revert RewardFailed();
         }
-        textData[textHex].rewordTimes += 1;
-        textData[textHex].rewordNum += msg.value;
         emit Transform(msg.sender, writer, msg.value);
     }
 
