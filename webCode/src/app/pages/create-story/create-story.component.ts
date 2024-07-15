@@ -98,8 +98,7 @@ export class CreateStoryComponent {
     }).then(res=>{
       if(res.code == 200) {
         if(index == 1) {
-          this.return()
-          // this.router.navigate(['/index/story-detail'],{ queryParams: { id: res.data }});
+          this.router.navigate(['/index/story-detail'],{ queryParams: { id: res.data }});
         } else {
           this.router.navigate(['/index/create-line'],{ queryParams: { id: res.data, name:values.name }})
         }

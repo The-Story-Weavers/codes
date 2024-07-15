@@ -22,7 +22,8 @@ export class ReadStoryComponent {
   themeName = '';
   themeId = '';
   user = "";
-  story = null
+  story = null;
+  cid = null
 
 
 
@@ -34,15 +35,23 @@ export class ReadStoryComponent {
     this.themeId = sessionStorage.getItem("themeId")
     this.sid = this.activatedRoute.snapshot.queryParams["id"];
     this.stitle = this.activatedRoute.snapshot.queryParams["name"];
+    this.cid = this.activatedRoute.snapshot.queryParams["cid"];
     const line = JSON.parse(sessionStorage.getItem("line"))
     if(line?.sid == this.sid){
       this.story = line
     }
+
     this.http.post("/weavers/chapter/getCtitleBySid",{
       sid: this.sid,
     }).then(res=>{
       if(res.code == 200) {
         this.catalog = res.data
+        const index = this.catalog.findIndex(val=>val.cid == this.cid)
+        console.log(index);
+        
+        if(this.cid) {
+          this.toDetail({cid:this.cid},index)
+        }
       }
       
     })

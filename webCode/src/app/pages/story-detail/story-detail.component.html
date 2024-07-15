@@ -56,7 +56,7 @@
     <app-story-line-card class="mb-lg" (click)="toDetail(item)" *ngFor="let item of lineList; let i = index" [line]="item"></app-story-line-card>
   </div>
   <div class="flex flex-column flex-center full-height" *ngIf="!lineList.length">
-    <nz-empty style="margin-top: 120px;" nzNotFoundContent=""></nz-empty>
+    <nz-empty style="margin-top: 120px;" nzNotFoundContent="开始创作第一个精彩故事吧"></nz-empty>
     
   </div>
 

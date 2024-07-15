@@ -91,7 +91,7 @@ export class CreateStoryLineComponent {
             }
             sessionStorage.setItem("line",JSON.stringify(line))
             this.router.navigate(["/index/read"], {
-              queryParams: { id: res.data.sid },
+              queryParams: { id: res.data.sid, cid:res.data.cid},
             });
 
           }

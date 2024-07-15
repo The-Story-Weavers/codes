@@ -72,7 +72,7 @@ export class ContinueStoryComponent {
             .then((res) => {
               if (res.code == 200) {
                 this.router.navigate(["/index/read"], {
-                  queryParams: { id: this.storyId },
+                  queryParams: { id: this.storyId,cid:res.data},
                 });
               }
             })
