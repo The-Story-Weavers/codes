@@ -39,10 +39,20 @@
 </section>
 
 <section [hidden]="catalogShow" class="bg-white" style="margin: 24px 18% 40px 18%;padding: 40px;position: relative;">
+ <div class="right-btns">
   <div class="catalog-icon bg-white" (click)="catalogShow = true">
     <span nz-icon nzType="bars" nzTheme="outline"></span>
     <span>目录</span>
   </div>
+
+  <div *ngIf="curPage!=0" class="catalog-icon bg-white mt-md" (click)="toPage(-1)">
+    <span>上一章</span>
+  </div>
+  <div *ngIf="catalog.length!=curPage+1" class="catalog-icon bg-white mt-md" (click)="toPage(1)">
+    <span>下一章</span>
+  </div>
+ </div>
+ 
 
   <span class="mb-md" style="font-size: 26px;margin-top: 40px;">第{{curPage+1}}章 {{catalog[curPage]?.ctitle}}</span>
   <div class="mb-lg" style="color: #999;">

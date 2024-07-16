@@ -51,8 +51,6 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NZ_I18N, zh_CN } from 'ng-zorro-antd/i18n';
-import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { HtmlPipe } from './pipes/html.pipe';
 
 const ZORRO_MODULES = [

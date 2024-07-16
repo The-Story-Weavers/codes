@@ -24,7 +24,7 @@ export class ReadStoryComponent {
   user = "";
   story = null;
   cid = null
-
+  offsetTop = 120;
 
 
   constructor(private router: Router,private activatedRoute: ActivatedRoute,private http: HttpService) {}
@@ -68,7 +68,7 @@ export class ReadStoryComponent {
   toDetail(page,index) {
     this.sid = this.activatedRoute.snapshot.queryParams["id"];
     this.http.post("/weavers/chapter/getChapterByCid",{
-      cid: page.cid,
+      cid: Number(page.cid),
     }).then(res=>{
       if(res.code == 200) {
         this.content = res.data.content;
@@ -86,6 +86,15 @@ export class ReadStoryComponent {
     })
     
    
+  }
+  
+
+  toPage(num) {
+    if(num>0) {
+      this.toDetail(this.catalog[this.curPage+1],this.curPage+1)
+    } else {
+      this.toDetail(this.catalog[this.curPage-1],this.curPage-1)
+    }
   }
   close() {
     if(this.curPage || this.curPage === 0) {
