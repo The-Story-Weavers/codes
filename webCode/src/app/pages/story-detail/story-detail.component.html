@@ -37,8 +37,8 @@
   </div>
   <div class="flex justify-between mb-lg" style="margin-top: 40px;">
     <div>
-      <span class="filter-span selected">热门作品</span>
-      <span class="filter-span">最新作品</span>
+      <span class="filter-span" [ngClass]="{selected:sort == 'hot'}" (click)="filterStory('hot')">热门作品</span>
+      <span class="filter-span" [ngClass]="{selected:sort == 'new'}" (click)="filterStory('new')">最新作品</span>
     </div>
     <div>
       <label class="mr-lg" nz-checkbox [(ngModel)]="myChecked" (ngModelChange)="searchLine(true)">我参与的</label>

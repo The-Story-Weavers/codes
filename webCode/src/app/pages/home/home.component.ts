@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   storyList = [];
   page = new Page();
   key = "";
+  sort = "hot"
 
   constructor(private router: Router,private http: HttpService,private toolsService: ToolsService) {
     this.page.size = 12
@@ -35,7 +36,8 @@ export class HomeComponent implements OnInit {
       pageNum: this.page.page,
       pageSize: this.page.size,
       searchName: this.key,
-      author:this.myChecked&&!showResultNum?address:null
+      author:this.myChecked&&!showResultNum?address:null,
+      sort: this.sort
     }).then(res=>{
       if(res.code == 200) {
         this.page.total =res.data.total;
@@ -49,6 +51,10 @@ export class HomeComponent implements OnInit {
       }  
     })
    
+  }
+  filterStory(info) {
+    this.sort = info
+    this.searchStory();
   }
   keyChange() {
     this.page.page = 1

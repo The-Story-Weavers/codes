@@ -19,7 +19,8 @@ export class StoryDetailComponent {
   story = null;
   keyName = "";
   pid = null;
-  pname = null
+  pname = null;
+  sort = "hot"
 
   constructor(private router: Router,private activatedRoute: ActivatedRoute,private http: HttpService) {
     this.page.size = 12
@@ -46,13 +47,17 @@ export class StoryDetailComponent {
   }
 
   searchLine(isReset = false) {
+    if(isReset) {
+      this.page.page = 1
+    }
     const address = sessionStorage.getItem('walletAddress')
     this.http.post("/weavers/story/findAllStory",{
       pid: this.pid,
       pageNum: this.page.page,
       pageSize: this.page.size,
       stitle:this.keyName,
-      author:this.myChecked?address:null
+      author:this.myChecked?address:null,
+      sort: this.sort
     }).then(res=>{
       if(res.code == 200) {
         this.lineList = res.data.records;
@@ -73,9 +78,12 @@ export class StoryDetailComponent {
       
     })
   }
+  filterStory(info) {
+    this.sort = info
+    this.searchLine(true);
+  }
+  
   toDetail(line) {
-    console.log(line);
-    
     sessionStorage.setItem("line",JSON.stringify(line))
     this.router.navigate(["/index/read"],{ queryParams: { id: line.sid}})
   }

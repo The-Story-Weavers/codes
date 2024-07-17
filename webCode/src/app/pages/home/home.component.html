@@ -16,9 +16,9 @@
   <div class="content">
     <div *ngIf="!showSearchResult" class="flex justify-between mb-lg">
       <div>
-        <span class="filter-span selected">热门作品</span>
-        <span class="filter-span">最新作品</span>
-        <span class="filter-span">最多支线</span>
+        <span class="filter-span" [ngClass]="{selected:sort == 'hot'}" (click)="filterStory('hot')">热门作品</span>
+        <span class="filter-span" [ngClass]="{selected:sort == 'new'}" (click)="filterStory('new')">最新作品</span>
+        <!-- <span class="filter-span">最多支线</span> -->
       </div>
       <div>
         <label nz-checkbox [(ngModel)]="myChecked" (ngModelChange)="checkedChange()">我参与的</label>
