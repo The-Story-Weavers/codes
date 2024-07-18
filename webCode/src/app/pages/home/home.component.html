@@ -2,7 +2,7 @@
   <div class="flex flex-column align-center top">
     <img src="assets/images/home-logo.png" alt="" srcset="" style="margin-top: 130px;margin-bottom: 40px;">
     <div *ngIf="!searching">
-      <span class="search-btn mr-lg" (click)="handleCreate()">创建作品</span>
+      <span class="search-btn mr-lg" (click)="handleCreate()">创建系列</span>
       <span class="create-btn" (click)="searching = true">寻找作品</span>
     </div>
     <nz-input-group class="search-input" *ngIf="searching" nzSearch [nzSuffix]="suffixIcon" nzSize="large"
@@ -16,8 +16,8 @@
   <div class="content">
     <div *ngIf="!showSearchResult" class="flex justify-between mb-lg">
       <div>
-        <span class="filter-span" [ngClass]="{selected:sort == 'hot'}" (click)="filterStory('hot')">热门作品</span>
-        <span class="filter-span" [ngClass]="{selected:sort == 'new'}" (click)="filterStory('new')">最新作品</span>
+        <span class="filter-span" [ngClass]="{selected:sort == 'hot'}" (click)="filterStory('hot')">热门系列</span>
+        <span class="filter-span" [ngClass]="{selected:sort == 'new'}" (click)="filterStory('new')">最新系列</span>
         <!-- <span class="filter-span">最多支线</span> -->
       </div>
       <div>
