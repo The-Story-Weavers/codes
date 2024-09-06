@@ -49,20 +49,20 @@ export class CreateStoryLineComponent {
     this.contract.loading$.next(true);
     const user = sessionStorage.getItem('walletAddress')
     if(!user) {
-      this.toolsService.tip("warning","请连接钱包")
+      this.toolsService.tip("warning","Please connect wallet")
       return
     }
     const values = this.validateForm.getRawValue();
     if(!values.name) {
-      this.toolsService.tip("warning","请输入名称")
+      this.toolsService.tip("warning","Please enter name")
       return
     }
     if(!values.remarks) {
-      this.toolsService.tip("warning","请输入简介")
+      this.toolsService.tip("warning","Please enter brief introduction")
       return
     }
     if(!values.pageName) {
-      this.toolsService.tip("warning","请输入章节标题")
+      this.toolsService.tip("warning","Please enter title")
       return
     }
     if(!values.content) {

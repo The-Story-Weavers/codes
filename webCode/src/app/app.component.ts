@@ -1,8 +1,8 @@
 import { registerLocaleData } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NzI18nService, zh_CN } from 'ng-zorro-antd/i18n';
-import zh from '@angular/common/locales/zh';
+import { NzI18nService, en_US } from 'ng-zorro-antd/i18n';
+import en from '@angular/common/locales/en';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +14,8 @@ import zh from '@angular/common/locales/zh';
 export class AppComponent implements OnDestroy {
 
   constructor(private i18n: NzI18nService) {
-    registerLocaleData(zh);
-    this.i18n.setLocale(zh_CN);
+    registerLocaleData(en);
+    this.i18n.setLocale(en_US);
   }
   
   ngOnDestroy(): void {}

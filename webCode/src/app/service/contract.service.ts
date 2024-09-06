@@ -11,7 +11,10 @@ import { ToolsService } from "./tools.service";
 export class ContractService {
   provider;
   contract;
+  // linea
   contractAddress = "0xADd01DE438Fce0FC7939f791c9afFcC2f2a31848";
+  // scroll
+  // contractAddress = "0x5B528d17a8236F78B8c8ae0F16D4B4d94a424b5e";
   loading$ = new Subject<boolean>();
   constructor(private toolsService: ToolsService) {}
 
@@ -22,7 +25,7 @@ export class ContractService {
         // 有的话执行连接操作
         resolve(this.provider.getSigner()); // 获取signer signer里面含有地址
       } else {
-        this.toolsService.tip("error", "未识别到钱包");
+        this.toolsService.tip("error", "Wallet not recognized");
         reject(null);
       }
     });
@@ -76,7 +79,7 @@ export class ContractService {
         // }
   
         if (error.info.error?.code == 4001) {
-          console.info("用户拒绝注册");
+          console.info("User refused to register");
         }
         return {
           disconnect: true,

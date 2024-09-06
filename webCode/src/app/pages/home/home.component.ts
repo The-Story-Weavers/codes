@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit {
   handleCreate() {
     const address = sessionStorage.getItem('walletAddress')
     if(!address) {
-      this.toolsService.tip('info',"请使用钱包进行注册/登录");
+      this.toolsService.tip('info',"Please use your wallet to register/log in.");
       return
     }
     this.router.navigate(['/index/create-story']);
@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit {
   toStory(story) {
     const address = sessionStorage.getItem('walletAddress')
     if(!address) {
-      this.toolsService.tip('info',"请使用钱包进行注册/登录");
+      this.toolsService.tip('info',"Please use your wallet to register/log in.");
       return
     }
     this.router.navigate(['/index/story-detail'],{ queryParams: { id: story.id }});

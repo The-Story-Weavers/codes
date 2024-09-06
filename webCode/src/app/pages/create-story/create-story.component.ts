@@ -72,20 +72,20 @@ export class CreateStoryComponent {
   handleSave(index) {
     const user = sessionStorage.getItem('walletAddress')
     if(!user) {
-      this.toolsService.tip("warning","请连接钱包")
+      this.toolsService.tip("warning","Please connect wallet")
       return
     }
     const values = this.validateForm.getRawValue();
     if(!values.name) {
-      this.toolsService.tip("warning","请输入名称")
+      this.toolsService.tip("warning","Please enter name")
       return
     }
     if(!values.content) {
-      this.toolsService.tip("warning","请输入简介")
+      this.toolsService.tip("warning","Please enter brief introduction")
       return
     }
     if(!this.tags.length) {
-      this.toolsService.tip("warning","请添加标签")
+      this.toolsService.tip("warning","Please add tag")
       return
     }
 

@@ -1,14 +1,14 @@
 <section class="bg-white pa-lg">
   <div>
     <strong>{{line?.stitle}}</strong>
-    <span class="page-span ml-md">{{line?.isend? '已完结':'更新中'}}·{{line?.pageNum || 0}}章</span>
+    <span class="page-span ml-md">{{line?.isend? 'Finished':'Updating'}}·{{line?.pageNum || 0}} chapters</span>
   </div>
 
   <div class="intro-ellipsis my-md" style="color: #666;">
     {{line?.remarks}}
   </div>
   <div class="footer">
-    <span>协作者：</span>
+    <span>Collaborators: </span>
     <svg *ngFor="let item of line?.authorArr" title="{{item}}" width="24" height="24" [data-jdenticon-value]="item"></svg>
     <label *ngIf="line?.otherLength" for="">+{{line?.otherLength}}</label>
     <span class="mr-xs" style="margin-left: 30px;position: relative;top: 2px;" nz-icon nzType="clock-circle" nzTheme="outline"></span>

@@ -1,12 +1,12 @@
 <section class="bg-white pb-md">
-    <div class="flex px-lg pt-lg pb-md" >
+    <div class="flex px-lg pt-lg pb-md" style="width: 100%;">
       <div class="mr-md card-img" [style.background-color]="story?.bgcolor">
         <img src="assets/images/logo2.png" alt="" srcset="">
       </div>
-      <div class="flex-1">
-        <div title="{{story?.ptitle}}"><strong>{{story?.ptitle}}</strong></div>
+      <div class="flex-1" style="overflow: auto;padding-bottom: 1px;">
+        <div class="title-ellipsis" title="{{story?.ptitle}}"><strong>{{story?.ptitle}}</strong></div>
         <div class="flex" style="margin-top: 6px;margin-bottom: 6px;"><span>发起者：</span><span class="common-ellipsis flex-1" title="{{story?.creator}}">{{story?.creator}}</span></div>
-        <div>
+        <div class="tag-wrap">
             <span *ngFor="let item of story?.labels" class="common-tag mr-xs">{{item}}</span>
             <!-- <span class="common-tag mr-xs">玄幻</span>
             <span class="common-tag">孙悟空</span> -->

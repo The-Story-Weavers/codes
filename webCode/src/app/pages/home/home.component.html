@@ -2,12 +2,12 @@
   <div class="flex flex-column align-center top">
     <img src="assets/images/home-logo.png" alt="" srcset="" style="margin-top: 130px;margin-bottom: 40px;">
     <div *ngIf="!searching">
-      <span class="search-btn mr-lg" (click)="handleCreate()">创建系列</span>
-      <span class="create-btn" (click)="searching = true">寻找作品</span>
+      <span class="search-btn mr-lg" (click)="handleCreate()">Create Theme</span>
+      <span class="create-btn" (click)="searching = true">Search</span>
     </div>
     <nz-input-group class="search-input" *ngIf="searching" nzSearch [nzSuffix]="suffixIcon" nzSize="large"
       style="width: 600px;">
-      <input type="text" nz-input placeholder="搜标签 故事合集" [(ngModel)]="key" (keyup.enter)="keyChange()" />
+      <input type="text" nz-input placeholder="Search Tag/Theme" [(ngModel)]="key" (keyup.enter)="keyChange()" />
     </nz-input-group>
     <ng-template #suffixIcon>
       <span nz-icon nzType="search"></span>
@@ -16,18 +16,18 @@
   <div class="content">
     <div *ngIf="!showSearchResult" class="flex justify-between mb-lg">
       <div>
-        <span class="filter-span" [ngClass]="{selected:sort == 'hot'}" (click)="filterStory('hot')">热门系列</span>
-        <span class="filter-span" [ngClass]="{selected:sort == 'new'}" (click)="filterStory('new')">最新系列</span>
+        <span class="filter-span" [ngClass]="{selected:sort == 'hot'}" (click)="filterStory('hot')">Hot</span>
+        <span class="filter-span" [ngClass]="{selected:sort == 'new'}" (click)="filterStory('new')">Newest</span>
         <!-- <span class="filter-span">最多支线</span> -->
       </div>
       <div>
-        <label nz-checkbox [(ngModel)]="myChecked" (ngModelChange)="checkedChange()">我参与的</label>
+        <label nz-checkbox [(ngModel)]="myChecked" (ngModelChange)="checkedChange()">Mine</label>
       </div>
 
     </div>
 
     <div *ngIf="showSearchResult" class="flex justify-between mb-lg">
-      <span style="color: #999;">共找到 <span style="color:#333">{{page.total}}</span> 个结果</span>
+      <span style="color: #999;">A total of <span style="color:#333">{{page.total}}</span>  results were found.</span>
       <span>
         <img src="assets/images/close.png" alt="" srcset="" style="cursor: pointer;" (click)="return()">
       </span>

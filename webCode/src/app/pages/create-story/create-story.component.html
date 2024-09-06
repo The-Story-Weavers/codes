@@ -3,50 +3,50 @@
     <nz-breadcrumb-item>
       <a (click)="return()"><span nz-icon nzType="home"></span></a>
     </nz-breadcrumb-item>
-    <nz-breadcrumb-item>新建故事系列</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Create Theme</nz-breadcrumb-item>
   </nz-breadcrumb>
 </div>
-<section class="bg-white" style="margin: 24px 18%;">
+<section class="bg-white" style="margin: 24px 18% 240px 18%;">
   <div class="pa-lg">
     <div class="text-align-center">
-      <span class="form-title">新建故事系列</span>
+      <span class="form-title">Create Theme</span>
       <img class="float-right" src="assets/images/close.png" alt="" srcset="" style="cursor: pointer;"
         (click)="return()">
     </div>
     <div class="my-lg note text-align-center">
-      为自己的故事创建一个系列吧，让更多同频的人与你一起创作丰富有趣的故事！
+      Create a theme for your story and let more people work with you to create rich and interesting stories!
     </div>
 
     <form nz-form [formGroup]="validateForm" nzLayout="vertical">
       <nz-form-item>
-        <nz-form-label nzRequired>名称</nz-form-label>
+        <nz-form-label nzRequired>Name</nz-form-label>
         <nz-form-control>
-          <input maxlength="20" type="text" nz-input formControlName="name" placeholder="请输入20以内的名称长度，比如：盗墓笔记" />
+          <input maxlength="200" type="text" nz-input formControlName="name" placeholder="Please enter a name" />
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzRequired>简介</nz-form-label>
+        <nz-form-label nzRequired>Intro</nz-form-label>
         <nz-form-control>
-          <textarea rows="4" nz-input formControlName="content" placeholder="请输入绿色健康内容，比如：主角吴邪的祖父吴老狗在长沙的血屍墓里发现战国帛书，而引发后来吴邪从帛书解谜途中的一段段冒险。五十年後，吴邪一个看似单纯的吴家富二代，大学毕业后便经营着古董店，日子过一天是一天，殊不知其身世冒险之离奇，因为发现先人笔记中一个秘密就此展开。"></textarea>
+          <textarea rows="4" nz-input formControlName="content" placeholder="Please enter the green health content"></textarea>
         </nz-form-control>
       </nz-form-item>
 
 
       <nz-form-item>
-        <nz-form-label nzFlex="100px" nzRequired>标签</nz-form-label>
+        <nz-form-label nzFlex="100px" nzRequired>Tags</nz-form-label>
         <nz-form-control>
           <nz-tag *ngFor="let tag of tags" nzMode="closeable" (nzOnClose)="handleClose(tag)">
             {{ tag }}
           </nz-tag>
           <nz-tag *ngIf="!inputVisible && tags.length<5" class="cursor-pointer" nzNoAnimation (click)="showInput()">
             <span nz-icon nzType="plus"></span>
-             自定义标签
+            Custom Tag
           </nz-tag>
           <input
             #inputElement
             nz-input
-            maxlength="10"
+            maxlength="100"
             nzSize="small"
             formControlName="tagInput"
             *ngIf="inputVisible && tags.length<5"
@@ -57,26 +57,26 @@
           />
 
           <div class="mt-md">
-            <nz-tag class="cursor-pointer" [nzColor]="'volcano'" (click)="checkTag('悬疑')">悬疑</nz-tag>
-            <nz-tag class="cursor-pointer" [nzColor]="'orange'" (click)="checkTag('都市')">都市</nz-tag>
-            <nz-tag class="cursor-pointer" [nzColor]="'gold'" (click)="checkTag('历史')">历史</nz-tag>
-            <nz-tag class="cursor-pointer" [nzColor]="'lime'" (click)="checkTag('玄幻')">玄幻</nz-tag>
-            <nz-tag class="cursor-pointer" [nzColor]="'green'" (click)="checkTag('武侠')">武侠</nz-tag>
-            <nz-tag class="cursor-pointer" [nzColor]="'cyan'" (click)="checkTag('科幻')">科幻</nz-tag>
+            <nz-tag class="cursor-pointer" [nzColor]="'volcano'" (click)="checkTag('Mystery')">Mystery</nz-tag>
+            <nz-tag class="cursor-pointer" [nzColor]="'orange'" (click)="checkTag('Adventure')">Adventure</nz-tag>
+            <nz-tag class="cursor-pointer" [nzColor]="'gold'" (click)="checkTag('History')">History</nz-tag>
+            <nz-tag class="cursor-pointer" [nzColor]="'lime'" (click)="checkTag('Fantasy')">Fantasy</nz-tag>
+            <nz-tag class="cursor-pointer" [nzColor]="'green'" (click)="checkTag('Comic')">Comic</nz-tag>
+            <nz-tag class="cursor-pointer" [nzColor]="'cyan'" (click)="checkTag('Science')">Science</nz-tag>
           </div>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzRequired>封面颜色</nz-form-label>
+        <nz-form-label nzRequired>Cover Color</nz-form-label>
         <nz-form-control>
           <nz-color-picker formControlName="color"></nz-color-picker> 
         </nz-form-control>
       </nz-form-item>
 
       <div class="bottom mt-sm flex justify-end">
-       <span class="btn-default" (click)="handleSave(1)">保存</span>
-        <span class='ml-md btn-primary' (click)="handleSave(2)">去创建故事</span>
+       <span class="btn-default" (click)="handleSave(1)">Save</span>
+        <span class='ml-md btn-primary' (click)="handleSave(2)">Create a Story Now</span>
 
       </div>
     </form>

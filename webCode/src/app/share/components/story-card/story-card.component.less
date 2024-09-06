@@ -15,7 +15,16 @@ section {
     width: 180px;
     vertical-align: bottom;
   }
+  .title-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    width: 210px;
+    vertical-align: bottom;
+  }
   .card-img {
+    flex-shrink: 0;
     width: 59px;
     height: 76px;
     background-color: rgb(194, 233, 251);
@@ -34,5 +43,11 @@ section {
   }
   .common-tag {
     font-size: 12px;
+  }
+  .tag-wrap {
+    overflow-y: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 1px;
   }
 }
