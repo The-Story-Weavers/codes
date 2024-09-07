@@ -14,7 +14,7 @@
       </div>
       <div>
         <div style="font-size: 26px;"><strong>{{story?.ptitle}}</strong></div>
-        <div class="my-md">initiator: {{story?.creator}}</div>
+        <div class="my-md">Initiator: {{story?.creator}}</div>
         <div>
           <span *ngFor="let item of story?.labels" class="common-tag mr-xs">{{item}}</span>
         </div>
@@ -22,7 +22,7 @@
         <div>
           <span style="font-size: 20px;">{{story?.viewnum || 0}}</span><label class="ml-xs" style="color: #999;font-size: 12px;" for="">Views</label>
           <span class="ml-md" style="font-size: 20px;">{{story?.stories?.length}}</span><label class="ml-xs" style="color: #999;font-size: 12px;"
-            for="">stories</label>
+            for="">Stories</label>
 
             <span class='btn-primary ml-lg' style="margin-bottom: 120px;" (click)="handleSave()">Create Story</span>
         </div>
